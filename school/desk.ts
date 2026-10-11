@@ -6043,8 +6043,6 @@
   bindNavigation();
   paintSchoolLevel();
   applyBrand();
-  const changeLogo = document.getElementById("change-logo");
-  if (changeLogo) changeLogo.addEventListener("click", function () { show("admin-school-settings-branding"); });
   const openVersions = document.getElementById("open-versions");
   if (openVersions) openVersions.addEventListener("click", function () { show("admin-system-release-notes"); });
   window.addEventListener("popstate", function () {
