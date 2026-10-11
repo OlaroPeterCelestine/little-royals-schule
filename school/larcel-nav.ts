@@ -4,38 +4,38 @@
   const GLOBALS = [{"id": "dashboard", "label": "Dashboard", "icon": "squares-2x2", "view": "dashboard"}, {"id": "inbox", "label": "My Inbox & Approvals", "icon": "inbox", "view": "inbox", "header": true}, {"id": "notifications", "label": "Notifications", "icon": "bell", "view": "notifications", "header": true}, {"id": "profile", "label": "My Profile", "icon": "user-circle", "view": "profile", "header": true}, {"id": "users", "label": "Users", "icon": "users", "view": "users", "header": true}, {"id": "audit", "label": "Audit logs", "icon": "shield-check", "view": "audit", "header": true}];
   const APPS = [
     { id: "admissions", name: "Admissions", label: "Admissions", icon: "inbox", modules: [
-      { id: "main", name: "Admissions", label: "Admissions", pages: ["Enquiries", "Applications", "Decisions"] }
+      { id: "main", name: "Admissions", label: "Admissions", pages: ["Enquiries", "Applications", "Document Verification", "Decisions", "Enrollment & Re-enrollment", "Transfers"] }
     ]},
     { id: "students", name: "Students", label: "Students", icon: "users", modules: [
-      { id: "main", name: "Students", label: "Students", pages: ["All Students", "Student 360", "Guardians"] }
+      { id: "main", name: "Students", label: "Students", pages: ["All Students", "Student 360", "Guardians", "Student Documents", "Student ID Cards", "Promotion & Graduation"] }
     ]},
     { id: "classes", name: "Classes", label: "Classes", icon: "building-office-2", modules: [
-      { id: "main", name: "Classes", label: "Classes", pages: ["Classes & Streams", "Teacher Classes", "Timetable", "Teacher Workload"] }
+      { id: "main", name: "Classes", label: "Classes", pages: ["Classes & Streams", "Class Allocation", "Teacher Classes", "Timetable", "Teacher Workload"] }
     ]},
     { id: "attendance", name: "Attendance", label: "Attendance", icon: "squares-2x2", modules: [
-      { id: "main", name: "Attendance", label: "Attendance", pages: ["Daily Attendance", "Corrections"] }
+      { id: "main", name: "Attendance", label: "Attendance", pages: ["Daily Attendance", "Absence Requests", "Corrections"] }
     ]},
     { id: "exams", name: "Exams", label: "Exams", icon: "academic-cap", modules: [
-      { id: "main", name: "Exams", label: "Exams", pages: ["Exam Setup", "Marks", "Report Cards"] }
+      { id: "main", name: "Exams", label: "Exams", pages: ["Exam Setup", "Assessment Configuration", "Marks", "Report Cards"] }
     ]},
     { id: "fees", name: "Fees", label: "Fees", icon: "banknotes", modules: [
-      { id: "main", name: "Fees", label: "Fees", pages: ["Fee Structures", "Invoices", "Record Payment", "Receipts"] }
+      { id: "main", name: "Fees", label: "Fees", pages: ["Fee Structures", "Discounts & Scholarships", "Invoices", "Record Payment", "Receipts", "Arrears"] }
     ]},
     { id: "staff", name: "Staff", label: "Staff", icon: "user-circle", modules: [
-      { id: "main", name: "Staff", label: "Staff", keep: 3, pages: ["All Teachers", "Leave", "Pay Runs", "Full Profile"] }
+      { id: "main", name: "Staff", label: "Staff", keep: 5, pages: ["All Teachers", "Leave", "Pay Runs", "Recruitment Pipeline", "Onboarding Checklist", "Full Profile"] }
     ]},
     { id: "messages", name: "Messages", label: "Messages", icon: "chat-bubble-left-right", modules: [
-      { id: "main", name: "Messages", label: "Messages", pages: ["Announcements", "Meetings"] }
+      { id: "main", name: "Messages", label: "Messages", pages: ["Announcements", "Direct Messages", "Meetings"] }
     ]},
     { id: "front", name: "Front Office", label: "Front office", icon: "bell", modules: [
-      { id: "main", name: "Front Office", label: "Front office", pages: ["Visitors", "Late and Early"] }
+      { id: "main", name: "Front Office", label: "Front office", pages: ["Visitors", "Late and Early", "Parent Service Requests", "Incoming Correspondence"] }
     ]},
     { id: "more", name: "More", label: "More", icon: "squares-plus", modules: [
-      { id: "library", name: "Library", label: "Library", pages: ["Borrowing & Returns"] },
-      { id: "transport", name: "Transport", label: "Transport", pages: ["Vehicles", "Routes & Stops"] },
-      { id: "clinic", name: "Clinic", label: "Clinic", restricted: true, pages: ["Clinic Visits"] },
-      { id: "store", name: "Store", label: "Store", pages: ["Stock Items"] },
-      { id: "learn", name: "Learning", label: "Learning", pages: ["Course Catalog", "Ask AI Tutor", "Assignments"] }
+      { id: "library", name: "Library", label: "Library", pages: ["Book Catalog", "Borrowing & Returns", "Overdue & Fines"] },
+      { id: "transport", name: "Transport", label: "Transport", pages: ["Vehicles", "Drivers", "Routes & Stops"] },
+      { id: "clinic", name: "Clinic", label: "Clinic", restricted: true, pages: ["Student Health Profiles", "Clinic Visits", "Medication Authorization", "Safeguarding Cases"] },
+      { id: "store", name: "Store", label: "Store", pages: ["Stock Items", "Purchase Requests", "Goods Received"] },
+      { id: "learn", name: "Learning", label: "Learning", pages: ["Course Catalog", "Ask AI Tutor", "Assignments", "Quiz Library"] }
     ]},
     { id: "settings", name: "Settings", label: "Settings", icon: "shield-check", modules: [
       { id: "main", name: "Settings", label: "Settings", pages: ["General Settings", "Branding", "Academic Years & Terms", "Users", "Audit Logs"] }
@@ -95,6 +95,7 @@
     "admin-users-user-directory": "settings-main-users",
     "admin-security-audit-logs": "settings-main-audit-logs",
     "admin-security-logo-audit": "settings-main-audit-logs",
+    "admin-system-release-notes": "settings-main-general-settings",
     "school-day-academic-years-and-terms": "settings-main-academic-years-and-terms",
     "learn-courses-ask-ai-tutor": "more-learn-ask-ai-tutor",
     "learn-courses-course-catalog": "more-learn-course-catalog",
@@ -258,7 +259,7 @@
         '<div class="app-body ml-4 mt-0.5 mb-1 space-y-0.5 border-l border-slate-200 pl-2' + (open ? "" : " hidden") + '">' + modules + "</div></div>";
     }).join("");
 
-    return '<div class="space-y-0.5">' + globals.join("") + apps + "</div>";
+    return '<div class="nav-list">' + globals.join("") + apps + "</div>";
   }
 
   function pill(label, id, on, iconName) {

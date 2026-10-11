@@ -964,6 +964,16 @@
     "Meetings": ["Teacher", "Guardian", "Student", "Slot", "Place", "Reason"],
     "Visitors": ["Visitor", "Host", "Purpose", "Arrival"],
     "Late and Early": ["Student", "Time", "Direction", "Reason", "Collected by"],
+    "Student Documents": ["Student", "Document", "On file", "Notes"],
+    "Student ID Cards": ["Student", "Card number", "Class", "Issued"],
+    "Promotion & Graduation": ["Student", "From class", "To class", "Decision", "Date"],
+    "Class Allocation": ["Student", "Class", "Stream", "From"],
+    "Absence Requests": ["Student", "From", "To", "Reason", "Guardian"],
+    "Arrears": ["Student", "Invoice", "Balance", "Due"],
+    "Direct Messages": ["From", "To", "Message", "Channel"],
+    "Book Catalog": ["Title", "Author", "Barcode", "Copies"],
+    "Overdue & Fines": ["Borrower", "Title", "Due", "Fine"],
+    "Student Health Profiles": ["Student", "Blood group", "Allergies", "Conditions", "Emergency contact"],
     "Waitlist": ["Applicant", "Grade", "Position", "Ready from"],
     "Transfers": ["Student", "Effective date", "Reason", "Clearance", "Destination"],
     "Classes & Streams": ["Grade", "Stream", "Campus", "Capacity", "Homeroom teacher", "Year"],
@@ -1922,7 +1932,8 @@
     const adds = detachAdds(article);
     if (taken && !taken.shell) {
       const stage = document.getElementById("view-stage");
-      const row = stage && stage.firstElementChild;
+      let row = stage && stage.firstElementChild;
+      if (row && row.hasAttribute("data-flow")) row = row.nextElementSibling;
       detachAdds(row).forEach(function (button) { adds.push(button); });
       taken.shell = true;
       if (row) {
@@ -2342,8 +2353,29 @@
     hideSearch();
   }
 
+  function flowStrip() {
+    const nav = window.LarcelNav;
+    const meta = nav && nav.byId[state.page];
+    if (!meta || !meta.moduleId) return "";
+    const steps = nav.pages.filter(function (item) {
+      return item.appId === meta.appId && item.moduleId === meta.moduleId && !item.detail && !item.hidden;
+    });
+    if (steps.length < 2) return "";
+    const index = steps.map(function (item) { return item.id; }).indexOf(meta.id);
+    const here = index < 0 ? 0 : index;
+    const bits = steps.map(function (item, step) {
+      const on = item.id === meta.id;
+      return '<button type="button" data-action="goto" data-page="' + esc(item.id) + '" class="' + (on ? "font-semibold text-slate-900" : "text-slate-500 hover:text-slate-900") + '">' + (step + 1) + ". " + esc(item.label) + "</button>";
+    }).join('<span class="text-slate-300" aria-hidden="true">→</span>');
+    const next = here < steps.length - 1 ? steps[here + 1] : null;
+    const nextBtn = next
+      ? '<button type="button" data-action="goto" data-page="' + esc(next.id) + '" class="' + primaryBtn + ' shrink-0">Next: ' + esc(next.label) + "</button>"
+      : "";
+    return '<div data-flow="1" class="mb-4 flex flex-wrap items-center justify-between gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3 text-xs"><div class="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1">' + bits + '</div>' + nextBtn + "</div>";
+  }
+
   function shell(title, lede, body, actions) {
-    return '<div class="flex flex-wrap items-end justify-between gap-3">' +
+    return flowStrip() + '<div class="flex flex-wrap items-end justify-between gap-3">' +
       '<div><h1 class="text-2xl font-semibold tracking-tight text-slate-900">' + title + "</h1>" +
       '<p class="text-sm text-slate-500 mt-1 max-w-2xl">' + lede + "</p></div>" +
       (actions ? '<div class="flex items-center gap-2">' + actions + "</div>" : "") + "</div>" + body;
