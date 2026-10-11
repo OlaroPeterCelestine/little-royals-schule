@@ -6,7 +6,7 @@
     { id: "school", name: "School Management", label: "School", icon: "building-office-2", modules: [
       { id: "day", name: "School Day", label: "School day", keep: 6, pages: ["School Calendar", "Events Calendar", "School Time", "Teacher Classes", "Student 360", "School Policies", "School Profile", "School Site", "Academic Years & Terms", "Rollover Wizard"] },
       { id: "admissions", name: "Admissions & Enrollment", label: "Admissions", keep: 1, pages: ["Applications", "Admission Dashboard", "Enquiries", "Interviews & Assessments", "Offers & Waiting List", "Enrollment & Re-enrollment", "Transfers", "Document Verification", "Admission Decision", "Waitlist"] },
-      { id: "students", name: "Student Records", label: "Students", keep: 1, pages: ["All Students", "Student Profiles", "Guardians & Families", "Student Documents", "Student ID Cards", "Promotion & Graduation", "Withdrawals & Alumni", "Family and Sibling Links"] },
+      { id: "students", name: "Student Records", label: "Students", keep: 1, pages: ["All Students", "Guardians & Families", "Student Documents", "Student ID Cards", "Promotion & Graduation", "Withdrawals & Alumni", "Family and Sibling Links"] },
       { id: "classes", name: "Classes & Structure", label: "Classes", keep: 1, pages: ["Classes & Streams", "Departments", "Classrooms", "Class Allocation", "Class Teachers", "Academic Groups", "Campus Registry", "Grades and Streams", "Classrooms and Capacities"] },
       { id: "front", name: "Front Office", label: "Front office", keep: 1, pages: ["Reception Queue", "Late Arrival and Early Departure", "Parent Service Requests", "Incoming Correspondence"] }
     ]},
@@ -67,7 +67,6 @@
     "School Management|School Day|Student 360": "student360",
     "School Management|School Day|School Policies": "policies",
     "School Management|Student Records|All Students": "students",
-    "School Management|Student Records|Student Profiles": "student360",
     "School Management|Classes & Structure|Class Teachers": "teachermap",
     "Academics|Teaching & Lessons|Curriculum Library": "curriculum",
     "Academics|Teaching & Lessons|Schemes of Work": "studyplans",
@@ -98,6 +97,7 @@
     "Administration & Security|Help & Support|Help & Support": "help"
   };
   const LEGACY = {
+    "school-students-student-profiles": "school-day-student-360",
     "school-overview-school-policies": "school-day-school-policies",
     "school-overview-school-calendar": "school-day-school-calendar",
     "academics-curriculum-curriculum-library": "academics-teaching-curriculum-library",
