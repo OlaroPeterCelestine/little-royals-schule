@@ -3,60 +3,108 @@
   const ICONS = {"squares-2x2": "M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z", "inbox": "M2.25 13.5h3.86a2.25 2.25 0 0 1 2.012 1.244l.256.512a2.25 2.25 0 0 0 2.013 1.244h3.218a2.25 2.25 0 0 0 2.013-1.244l.256-.512a2.25 2.25 0 0 1 2.013-1.244h3.859m-19.5.338V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18v-4.162c0-.224-.034-.447-.1-.661L19.24 5.338a2.25 2.25 0 0 0-2.15-1.588H6.911a2.25 2.25 0 0 0-2.15 1.588L2.35 13.177a2.25 2.25 0 0 0-.1.661Z", "bell": "M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0", "magnifying-glass": "m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z", "lifebuoy": "M16.712 4.33a9.027 9.027 0 0 1 1.652 1.306c.51.51.944 1.064 1.306 1.652M16.712 4.33l-3.448 4.138m3.448-4.138a9.014 9.014 0 0 0-9.424 0M19.67 7.288l-4.138 3.448m4.138-3.448a9.014 9.014 0 0 1 0 9.424m-4.138-5.976a3.736 3.736 0 0 0-.88-1.388 3.737 3.737 0 0 0-1.388-.88m2.268 2.268a3.765 3.765 0 0 1 0 2.528m-2.268-4.796a3.765 3.765 0 0 0-2.528 0m4.796 4.796c-.181.506-.475.982-.88 1.388a3.736 3.736 0 0 1-1.388.88m2.268-2.268 4.138 3.448m0 0a9.027 9.027 0 0 1-1.306 1.652c-.51.51-1.064.944-1.652 1.306m0 0-3.448-4.138m3.448 4.138a9.014 9.014 0 0 1-9.424 0m5.976-4.138a3.765 3.765 0 0 1-2.528 0m0 0a3.736 3.736 0 0 1-1.388-.88 3.737 3.737 0 0 1-.88-1.388m2.268 2.268L7.288 19.67m0 0a9.024 9.024 0 0 1-1.652-1.306 9.027 9.027 0 0 1-1.306-1.652m0 0 4.138-3.448M4.33 16.712a9.014 9.014 0 0 1 0-9.424m4.138 5.976a3.765 3.765 0 0 1 0-2.528m0 0c.181-.506.475-.982.88-1.388a3.736 3.736 0 0 1 1.388-.88m-2.268 2.268L4.33 7.288m6.406 1.18L7.288 4.33m0 0a9.024 9.024 0 0 0-1.652 1.306A9.025 9.025 0 0 0 4.33 7.288", "user-circle": "M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z", "building-office-2": "M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3.75h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Z", "book-open": "M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25", "banknotes": "M2.25 18.75a60.07 60.07 0 0 1 15.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 0 1 3 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 0 0-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 0 1-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 0 0 3 15h-.75M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm3 0h.008v.008H18V10.5Zm-12 0h.008v.008H6V10.5Z", "users": "M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z", "truck": "M8.25 18.75a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 0 1-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 0 0-3.213-9.193 2.056 2.056 0 0 0-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 0 0-10.026 0 1.106 1.106 0 0 0-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12", "heart": "M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z", "academic-cap": "M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.62 48.62 0 0 1 12 20.904a48.62 48.62 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.636 50.636 0 0 0-2.658-.813A59.906 59.906 0 0 1 12 3.493a59.903 59.903 0 0 1 10.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.717 50.717 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342M6.75 15a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm0 0v-3.675A55.378 55.378 0 0 1 12 8.443m-7.007 11.55A5.981 5.981 0 0 0 6.75 15.75v-1.5", "user-group": "M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z", "chart-bar": "M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z", "document-text": "M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z", "squares-plus": "M13.5 16.875h3.375m0 0h3.375m-3.375 0V13.5m0 3.375v3.375M6 10.5h2.25a2.25 2.25 0 0 0 2.25-2.25V6a2.25 2.25 0 0 0-2.25-2.25H6A2.25 2.25 0 0 0 3.75 6v2.25A2.25 2.25 0 0 0 6 10.5Zm0 9.75h2.25A2.25 2.25 0 0 0 10.5 18v-2.25a2.25 2.25 0 0 0-2.25-2.25H6a2.25 2.25 0 0 0-2.25 2.25V18A2.25 2.25 0 0 0 6 20.25Zm9.75-9.75H18a2.25 2.25 0 0 0 2.25-2.25V6A2.25 2.25 0 0 0 18 3.75h-2.25A2.25 2.25 0 0 0 13.5 6v2.25a2.25 2.25 0 0 0 2.25 2.25Z", "shield-check": "M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z", "chevron-down": "m19.5 8.25-7.5 7.5-7.5-7.5", "lock-closed": "M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z", "chat-bubble-left-right": "M20.25 8.511c.884.284 1.5 1.128 1.5 2.097v4.286c0 1.136-.847 2.1-1.98 2.193-.34.027-.68.052-1.02.072v3.091l-3-3c-1.354 0-2.694-.055-4.02-.163a2.115 2.115 0 0 1-.825-.242m9.345-8.334a2.126 2.126 0 0 0-.476-.095 48.64 48.64 0 0 0-8.048 0c-1.131.094-1.976 1.057-1.976 2.192v4.286c0 .837.46 1.58 1.155 1.951m9.345-8.334V6.637c0-1.621-1.152-3.026-2.76-3.235A48.455 48.455 0 0 0 11.25 3c-2.115 0-4.198.137-6.24.402-1.608.209-2.76 1.614-2.76 3.235v6.226c0 1.621 1.152 3.026 2.76 3.235.577.075 1.157.14 1.74.194V21l4.155-4.155"};
   const GLOBALS = [{"id": "dashboard", "label": "Dashboard", "icon": "squares-2x2", "view": "dashboard"}, {"id": "inbox", "label": "My Inbox & Approvals", "icon": "inbox", "view": "inbox", "header": true}, {"id": "notifications", "label": "Notifications", "icon": "bell", "view": "notifications", "header": true}, {"id": "profile", "label": "My Profile", "icon": "user-circle", "view": "profile", "header": true}, {"id": "users", "label": "Users", "icon": "users", "view": "users", "header": true}, {"id": "audit", "label": "Audit logs", "icon": "shield-check", "view": "audit", "header": true}];
   const APPS = [
+    { id: "school", name: "School", label: "School", icon: "building-office-2", modules: [
+      { id: "main", name: "School", label: "School", pages: ["School Calendar", "School Time", "Events Calendar", "School Policies", "School Profile", "Rollover Wizard"] }
+    ]},
     { id: "admissions", name: "Admissions", label: "Admissions", icon: "inbox", modules: [
-      { id: "main", name: "Admissions", label: "Admissions", pages: ["Enquiries", "Applications", "Document Verification", "Decisions", "Enrollment & Re-enrollment", "Transfers"] }
+      { id: "main", name: "Admissions", label: "Admissions", pages: ["Enquiries", "Applications", "Interviews & Assessments", "Document Verification", "Offers & Waiting List", "Decisions", "Enrollment & Re-enrollment", "Transfers"] }
     ]},
     { id: "students", name: "Students", label: "Students", icon: "users", modules: [
-      { id: "main", name: "Students", label: "Students", pages: ["All Students", "Student 360", "Guardians", "Student Documents", "Student ID Cards", "Promotion & Graduation"] }
+      { id: "main", name: "Students", label: "Students", pages: ["All Students", "Student 360", "Guardians", "Student Documents", "Student ID Cards", "Promotion & Graduation", "Withdrawals & Alumni", "Parent Dashboard"] }
     ]},
-    { id: "classes", name: "Classes", label: "Classes", icon: "building-office-2", modules: [
-      { id: "main", name: "Classes", label: "Classes", pages: ["Classes & Streams", "Class Allocation", "Teacher Classes", "Timetable", "Teacher Workload"] }
+    { id: "classes", name: "Classes", label: "Classes", icon: "squares-plus", modules: [
+      { id: "main", name: "Classes", label: "Classes", pages: ["Classes & Streams", "Class Allocation", "Teacher Classes", "Departments", "Classrooms"] }
     ]},
-    { id: "attendance", name: "Attendance", label: "Attendance", icon: "squares-2x2", modules: [
-      { id: "main", name: "Attendance", label: "Attendance", pages: ["Daily Attendance", "Absence Requests", "Corrections"] }
+    { id: "timetable", name: "Timetable", label: "Timetable", icon: "squares-2x2", modules: [
+      { id: "main", name: "Timetable", label: "Timetable", pages: ["Class Timetables", "Teacher Timetables", "Room Scheduling", "Substitutions"] }
+    ]},
+    { id: "teaching", name: "Teaching", label: "Teaching", icon: "book-open", modules: [
+      { id: "main", name: "Teaching", label: "Teaching", pages: ["Curriculum Library", "Lesson Plans", "Teacher Workload"] }
+    ]},
+    { id: "attendance", name: "Attendance", label: "Attendance", icon: "chart-bar", modules: [
+      { id: "main", name: "Attendance", label: "Attendance", pages: ["Daily Attendance", "Period Attendance", "Absence Requests", "Corrections"] }
     ]},
     { id: "exams", name: "Exams", label: "Exams", icon: "academic-cap", modules: [
-      { id: "main", name: "Exams", label: "Exams", pages: ["Exam Setup", "Assessment Configuration", "Marks", "Report Cards"] }
+      { id: "main", name: "Exams", label: "Exams", pages: ["Exam Setup", "Exam Schedules", "Marks", "Grade Moderation"] }
+    ]},
+    { id: "results", name: "Results", label: "Results", icon: "document-text", modules: [
+      { id: "main", name: "Results", label: "Results", pages: ["Report Cards", "Transcripts", "School Benchmarks"] }
     ]},
     { id: "fees", name: "Fees", label: "Fees", icon: "banknotes", modules: [
       { id: "main", name: "Fees", label: "Fees", pages: ["Fee Structures", "Discounts & Scholarships", "Invoices", "Record Payment", "Receipts", "Arrears"] }
     ]},
     { id: "staff", name: "Staff", label: "Staff", icon: "user-circle", modules: [
-      { id: "main", name: "Staff", label: "Staff", keep: 5, pages: ["All Teachers", "Leave", "Pay Runs", "Recruitment Pipeline", "Onboarding Checklist", "Full Profile"] }
+      { id: "main", name: "Staff", label: "Staff", keep: 7, pages: ["All Teachers", "Leave", "Pay Runs", "Recruitment Pipeline", "Onboarding Checklist", "Open Cases", "Case History", "Full Profile"] }
+    ]},
+    { id: "time", name: "Time", label: "Time", icon: "bell", modules: [
+      { id: "main", name: "Time", label: "Time", pages: ["Today", "This Week"] }
     ]},
     { id: "messages", name: "Messages", label: "Messages", icon: "chat-bubble-left-right", modules: [
       { id: "main", name: "Messages", label: "Messages", pages: ["Announcements", "Direct Messages", "Meetings"] }
     ]},
-    { id: "front", name: "Front Office", label: "Front office", icon: "bell", modules: [
+    { id: "front", name: "Front Office", label: "Front office", icon: "lifebuoy", modules: [
       { id: "main", name: "Front Office", label: "Front office", pages: ["Visitors", "Late and Early", "Parent Service Requests", "Incoming Correspondence"] }
     ]},
-    { id: "more", name: "More", label: "More", icon: "squares-plus", modules: [
-      { id: "library", name: "Library", label: "Library", pages: ["Book Catalog", "Borrowing & Returns", "Overdue & Fines"] },
-      { id: "transport", name: "Transport", label: "Transport", pages: ["Vehicles", "Drivers", "Routes & Stops"] },
-      { id: "clinic", name: "Clinic", label: "Clinic", restricted: true, pages: ["Student Health Profiles", "Clinic Visits", "Medication Authorization", "Safeguarding Cases"] },
-      { id: "store", name: "Store", label: "Store", pages: ["Stock Items", "Purchase Requests", "Goods Received"] },
-      { id: "learn", name: "Learning", label: "Learning", pages: ["Course Catalog", "Ask AI Tutor", "Assignments", "Quiz Library"] }
+    { id: "library", name: "Library", label: "Library", icon: "book-open", modules: [
+      { id: "main", name: "Library", label: "Library", pages: ["Book Catalog", "Borrowing & Returns", "Overdue & Fines"] }
     ]},
-    { id: "settings", name: "Settings", label: "Settings", icon: "shield-check", modules: [
-      { id: "main", name: "Settings", label: "Settings", pages: ["General Settings", "Branding", "Academic Years & Terms", "Users", "Audit Logs"] }
+    { id: "transport", name: "Transport", label: "Transport", icon: "truck", modules: [
+      { id: "main", name: "Transport", label: "Transport", pages: ["Vehicles", "Drivers", "Routes & Stops", "Student Assignments"] }
+    ]},
+    { id: "clinic", name: "Clinic", label: "Clinic", icon: "heart", modules: [
+      { id: "main", name: "Clinic", label: "Clinic", restricted: true, pages: ["Student Health Profiles", "Clinic Visits", "Medication Authorization", "Safeguarding Cases"] }
+    ]},
+    { id: "behavior", name: "Behavior", label: "Behavior", icon: "shield-check", modules: [
+      { id: "main", name: "Behavior", label: "Behavior", pages: ["Behavior Records", "Incidents", "Interventions"] }
+    ]},
+    { id: "store", name: "Store", label: "Store", icon: "squares-plus", modules: [
+      { id: "main", name: "Store", label: "Store", pages: ["Stock Items", "Purchase Requests", "Goods Received"] }
+    ]},
+    { id: "learning", name: "Learning", label: "Learning", icon: "academic-cap", modules: [
+      { id: "main", name: "Learning", label: "Learning", pages: ["Course Catalog", "Ask AI Tutor", "Assignments", "Quiz Library"] }
+    ]},
+    { id: "events", name: "Events", label: "Events", icon: "user-group", modules: [
+      { id: "main", name: "Events", label: "Events", pages: ["Clubs", "Field Trips", "Sports Teams", "Feedback Forms"] }
+    ]},
+    { id: "documents", name: "Documents", label: "Documents", icon: "document-text", modules: [
+      { id: "main", name: "Documents", label: "Documents", pages: ["School Documents", "Staff Documents", "My Approvals"] }
+    ]},
+    { id: "settings", name: "Settings", label: "Settings", icon: "lock-closed", modules: [
+      { id: "main", name: "Settings", label: "Settings", pages: ["General Settings", "Branding", "Academic Years & Terms", "Users", "Audit Logs", "Help & Support"] }
     ]}
   ];
   const VIEWS = {
+    "School|School|School Calendar": "schoolcalendar",
+    "School|School|School Time": "schooltime",
+    "School|School|Events Calendar": "eventscalendar",
+    "School|School|School Policies": "policies",
     "Students|Students|All Students": "students",
     "Students|Students|Student 360": "student360",
+    "Students|Students|Parent Dashboard": "parents",
     "Classes|Classes|Teacher Classes": "teachermap",
-    "Classes|Classes|Timetable": "schedules",
-    "Classes|Classes|Teacher Workload": "workload",
+    "Timetable|Timetable|Class Timetables": "schedules",
+    "Teaching|Teaching|Curriculum Library": "curriculum",
+    "Teaching|Teaching|Lesson Plans": "studyplans",
+    "Teaching|Teaching|Teacher Workload": "workload",
     "Attendance|Attendance|Daily Attendance": "attendance",
     "Exams|Exams|Exam Setup": "exams",
-    "Exams|Exams|Report Cards": "reportcards",
+    "Results|Results|Report Cards": "reportcards",
+    "Results|Results|Transcripts": "transcripts",
+    "Results|Results|School Benchmarks": "benchmarks",
     "Staff|Staff|All Teachers": "faculty",
     "Staff|Staff|Full Profile": "teacherprofile",
-    "More|Learning|Ask AI Tutor": "copilot",
+    "Staff|Staff|Open Cases": "hrdiscipline",
+    "Staff|Staff|Case History": "hrhistory",
+    "Time|Time|Today": "timeclock",
+    "Time|Time|This Week": "timeweek",
+    "Behavior|Behavior|Behavior Records": "wellness",
+    "Learning|Learning|Ask AI Tutor": "copilot",
+    "Events|Events|Feedback Forms": "feedback",
     "Settings|Settings|General Settings": "settings",
     "Settings|Settings|Branding": "branding",
     "Settings|Settings|Users": "users",
-    "Settings|Settings|Audit Logs": "audit"
+    "Settings|Settings|Audit Logs": "audit",
+    "Settings|Settings|Help & Support": "help"
   };
   const LEGACY = {
     "school-students-all-students": "students-main-all-students",
@@ -68,13 +116,32 @@
     "school-classes-teacher-classes": "classes-main-teacher-classes",
     "school-classes-class-teachers": "classes-main-teacher-classes",
     "school-day-teacher-classes": "classes-main-teacher-classes",
-    "academics-timetables-class-timetables": "classes-main-timetable",
-    "academics-teaching-teacher-workload": "classes-main-teacher-workload",
+    "academics-timetables-class-timetables": "timetable-main-class-timetables",
+    "classes-main-timetable": "timetable-main-class-timetables",
+    "academics-teaching-teacher-workload": "teaching-main-teacher-workload",
+    "classes-main-teacher-workload": "teaching-main-teacher-workload",
+    "academics-teaching-curriculum-library": "teaching-main-curriculum-library",
+    "academics-curriculum-curriculum-library": "teaching-main-curriculum-library",
+    "academics-teaching-lesson-plans": "teaching-main-lesson-plans",
+    "academics-teaching-schemes-of-work": "teaching-main-lesson-plans",
+    "academics-curriculum-schemes-of-work": "teaching-main-lesson-plans",
+    "school-day-school-calendar": "school-main-school-calendar",
+    "school-overview-school-calendar": "school-main-school-calendar",
+    "school-day-events-calendar": "school-main-events-calendar",
+    "community-events-event-calendar": "school-main-events-calendar",
+    "school-day-school-time": "school-main-school-time",
+    "school-day-school-policies": "school-main-school-policies",
+    "school-overview-school-policies": "school-main-school-policies",
     "academics-attendance-daily-attendance": "attendance-main-daily-attendance",
     "academics-attendance-attendance-corrections": "attendance-main-corrections",
     "academics-exams-exam-setup": "exams-main-exam-setup",
     "academics-exams-marks-entry": "exams-main-marks",
-    "academics-grades-report-cards": "exams-main-report-cards",
+    "academics-grades-report-cards": "results-main-report-cards",
+    "exams-main-report-cards": "results-main-report-cards",
+    "exams-main-assessment-configuration": "exams-main-exam-schedules",
+    "academics-grades-transcripts": "results-main-transcripts",
+    "academics-grades-school-benchmarks": "results-main-school-benchmarks",
+    "academics-benchmarks-school-benchmarks": "results-main-school-benchmarks",
     "finance-fees-fee-structures": "fees-main-fee-structures",
     "finance-fees-student-invoices": "fees-main-invoices",
     "finance-payments-record-payment": "fees-main-record-payment",
@@ -97,14 +164,42 @@
     "admin-security-logo-audit": "settings-main-audit-logs",
     "admin-system-release-notes": "settings-main-general-settings",
     "school-day-academic-years-and-terms": "settings-main-academic-years-and-terms",
-    "learn-courses-ask-ai-tutor": "more-learn-ask-ai-tutor",
-    "learn-courses-course-catalog": "more-learn-course-catalog",
-    "learn-tutor-ask-ai-tutor": "more-learn-ask-ai-tutor",
-    "operations-library-borrowing-and-returns": "more-library-borrowing-and-returns",
-    "operations-transport-vehicles": "more-transport-vehicles",
-    "operations-transport-routes-and-stops": "more-transport-routes-and-stops",
-    "care-health-clinic-visits": "more-clinic-clinic-visits",
-    "operations-inventory-stock-items": "more-store-stock-items"
+    "learn-courses-ask-ai-tutor": "learning-main-ask-ai-tutor",
+    "learn-courses-course-catalog": "learning-main-course-catalog",
+    "learn-tutor-ask-ai-tutor": "learning-main-ask-ai-tutor",
+    "more-learn-ask-ai-tutor": "learning-main-ask-ai-tutor",
+    "more-learn-course-catalog": "learning-main-course-catalog",
+    "more-learn-assignments": "learning-main-assignments",
+    "more-learn-quiz-library": "learning-main-quiz-library",
+    "operations-library-book-catalog": "library-main-book-catalog",
+    "operations-library-borrowing-and-returns": "library-main-borrowing-and-returns",
+    "more-library-book-catalog": "library-main-book-catalog",
+    "more-library-borrowing-and-returns": "library-main-borrowing-and-returns",
+    "more-library-overdue-and-fines": "library-main-overdue-and-fines",
+    "operations-transport-vehicles": "transport-main-vehicles",
+    "operations-transport-routes-and-stops": "transport-main-routes-and-stops",
+    "more-transport-vehicles": "transport-main-vehicles",
+    "more-transport-drivers": "transport-main-drivers",
+    "more-transport-routes-and-stops": "transport-main-routes-and-stops",
+    "care-health-clinic-visits": "clinic-main-clinic-visits",
+    "care-health-student-health-profiles": "clinic-main-student-health-profiles",
+    "more-clinic-student-health-profiles": "clinic-main-student-health-profiles",
+    "more-clinic-clinic-visits": "clinic-main-clinic-visits",
+    "more-clinic-medication-authorization": "clinic-main-medication-authorization",
+    "more-clinic-safeguarding-cases": "clinic-main-safeguarding-cases",
+    "operations-inventory-stock-items": "store-main-stock-items",
+    "more-store-stock-items": "store-main-stock-items",
+    "more-store-purchase-requests": "store-main-purchase-requests",
+    "more-store-goods-received": "store-main-goods-received",
+    "people-time-today": "time-main-today",
+    "people-time-this-week": "time-main-this-week",
+    "people-discipline-open-cases": "staff-main-open-cases",
+    "people-discipline-case-history": "staff-main-case-history",
+    "care-behavior-behavior-records": "behavior-main-behavior-records",
+    "community-portals-parent-dashboard": "students-main-parent-dashboard",
+    "community-events-feedback-forms": "events-main-feedback-forms",
+    "community-surveys-feedback-forms": "events-main-feedback-forms",
+    "admin-help-help-and-support": "settings-main-help-and-support"
   };
 
 

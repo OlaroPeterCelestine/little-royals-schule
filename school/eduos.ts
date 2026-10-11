@@ -567,7 +567,7 @@
   }
 
   const BOOKS = {};
-  const FORM_VIEWS = { copilot: true, feedback: true, help: true, settings: true, reports: true, reportcards: true, faculty: true, timeclock: true, timeweek: true, hrdiscipline: true, hrhistory: true, teacherprofile: true, notifications: true, profile: true, users: true, audit: true, schoolcalendar: true, eventscalendar: true, schooltime: true, teachermap: true, student360: true, studyplans: true, exams: true, inbox: true, branding: true, logoaudit: true, versions: true, benchmarks: true, workload: true };
+  const FORM_VIEWS = { copilot: true, feedback: true, help: true, settings: true, reports: true, reportcards: true, faculty: true, timeclock: true, timeweek: true, hrdiscipline: true, hrhistory: true, teacherprofile: true, notifications: true, profile: true, users: true, audit: true, schoolcalendar: true, eventscalendar: true, schooltime: true, teachermap: true, student360: true, studyplans: true, exams: true, inbox: true, branding: true, logoaudit: true, versions: true, benchmarks: true, workload: true, parents: true, transcripts: true, policies: true, curriculum: true, attendance: true, students: true, schedules: true, wellness: true };
   const PUPILS = ["Liam Chen", "Ava Patel", "Noah Al-Mansoor", "Mia Okonkwo", "Ethan Brooks", "Hannah Kim", "Owen Clarke", "Sophia Martinez", "Lucas Ferreira", "Amara Diallo"];
   const TEACHERS = ["Ms. Alvarez", "Mr. Shah", "Dr. Nguyen", "Ms. Brooks", "Mr. Okello", "Ms. Wanjiru", "Ms. Achieng", "Mr. Otieno"];
   const LEVEL_GRADES = {
@@ -974,6 +974,29 @@
     "Book Catalog": ["Title", "Author", "Barcode", "Copies"],
     "Overdue & Fines": ["Borrower", "Title", "Due", "Fine"],
     "Student Health Profiles": ["Student", "Blood group", "Allergies", "Conditions", "Emergency contact"],
+    "Interviews & Assessments": ["Applicant", "Slot", "Panel", "Result"],
+    "Offers & Waiting List": ["Applicant", "Offer", "Class", "Response"],
+    "Withdrawals & Alumni": ["Student", "Last class", "Leaving date", "Reason"],
+    "Departments": ["Department", "Head", "Subjects"],
+    "Classrooms": ["Room", "Capacity", "Class"],
+    "Class Timetables": ["Class", "Subject", "Teacher", "Room", "Weekday", "Start", "End"],
+    "Teacher Timetables": ["Teacher", "Class", "Subject", "Room", "Weekday", "Start", "End"],
+    "Room Scheduling": ["Room", "Class", "Weekday", "Start", "End"],
+    "Substitutions": ["Absent teacher", "Cover", "Class", "Date"],
+    "Period Attendance": ["Date", "Class", "Period", "Student", "Mark"],
+    "Exam Schedules": ["Exam", "Class", "Subject", "Date", "Room"],
+    "Grade Moderation": ["Assessment", "Class", "Change", "Reason", "Reviewer"],
+    "Student Assignments": ["Student", "Route", "Stop", "Pickup"],
+    "Incidents": ["Student", "Date", "What happened", "Follow-up"],
+    "Interventions": ["Student", "Plan", "Owner", "Review date"],
+    "Clubs": ["Club", "Teacher", "Day", "Room"],
+    "Field Trips": ["Trip", "Class", "Date", "Place"],
+    "Sports Teams": ["Team", "Coach", "Students"],
+    "School Documents": ["Title", "Owner", "File"],
+    "Staff Documents": ["Staff", "Document", "On file"],
+    "My Approvals": ["Request", "From", "Status"],
+    "School Profile": ["School", "Level", "Address", "Phone"],
+    "Rollover Wizard": ["From year", "To year", "Classes", "Date"],
     "Waitlist": ["Applicant", "Grade", "Position", "Ready from"],
     "Transfers": ["Student", "Effective date", "Reason", "Clearance", "Destination"],
     "Classes & Streams": ["Grade", "Stream", "Campus", "Capacity", "Homeroom teacher", "Year"],
@@ -5371,7 +5394,7 @@
     show(next, true);
   });
   const hash = (location.hash || "").replace(/^#/, "");
-  if (hash && window.LarcelNav && (window.LarcelNav.byId[hash] || PAGES[hash] || hash === "dashboard")) show(hash, true);
+  if (hash && window.LarcelNav && (window.LarcelNav.byId[hash] || window.LarcelNav.alias[hash] || PAGES[hash] || hash === "dashboard")) show(hash, true);
   else {
     syncNav("dashboard");
     if (window.LarcelNav) window.LarcelNav.paintTabs("dashboard");

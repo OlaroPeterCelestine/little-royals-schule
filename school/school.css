@@ -15,12 +15,13 @@ body {
       );
     }
     #sidebar { width: 19rem; min-width: 19rem; flex-basis: 19rem; transition: width 180ms ease, min-width 180ms ease, flex-basis 180ms ease, transform 180ms ease; }
+    #app-nav { display: flex; flex-direction: column; min-height: 0; }
     #app-nav .nav-list { display: flex; flex: 1 1 auto; flex-direction: column; min-height: 100%; }
     #app-nav .nav-list > .global-link,
-    #app-nav .nav-list > .app-block { flex: 1 0 auto; display: flex; align-items: center; }
+    #app-nav .nav-list > .app-block { flex: 1 1 0; display: flex; align-items: center; min-height: 1.7rem; }
+    #app-nav .global-link, #app-nav .app-toggle { padding-top: 0.2rem; padding-bottom: 0.2rem; }
     #app-nav .app-block { flex-direction: column; align-items: stretch; justify-content: center; }
     #app-nav .app-toggle { display: flex; align-items: center; width: 100%; }
-    #app-nav .app-block:has(.app-body:not(.hidden)) { justify-content: flex-start; }
     #nav-backdrop { display: none; }
     #sidebar-toggle svg { transition: transform 180ms ease; }
     html.sidebar-collapsed #sidebar { width: 4.75rem; min-width: 4.75rem; max-width: 4.75rem; flex-basis: 4.75rem; }
