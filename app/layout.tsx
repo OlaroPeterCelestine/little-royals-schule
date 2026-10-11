@@ -25,7 +25,7 @@ try { if (localStorage.getItem("eduos-sidebar-collapsed") === "1") document.docu
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={cn("h-full", "bg-slate-50", inter.variable, "font-sans", geist.variable)}>
+    <html lang="en" className={cn("h-full", "bg-slate-50", inter.variable, "font-sans", geist.variable)} suppressHydrationWarning>
       <body className={`${inter.className} h-full`}>
         <Script id="littleroyals-boot" strategy="beforeInteractive">
           {boot}

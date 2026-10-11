@@ -522,13 +522,13 @@
   }
 
   function resolvedPage(id) {
-    const nav = window.LarcelNav;
+    const nav = window.LittleAngelsNav;
     if (nav && nav.alias[id] && nav.byId[nav.alias[id]]) return nav.alias[id];
     return id;
   }
 
   function syncNav(id) {
-    document.querySelectorAll("#sidebar nav a:not([data-app]):not(.module-link)").forEach(function (link) {
+    document.querySelectorAll("#sidebar nav a:not([data-app]):not(.module-link):not(.nav-kicker)").forEach(function (link) {
       const on = link.dataset.page === id;
       link.classList.remove("nav-on", "bg-slate-100", "text-slate-900", "text-white", "font-semibold", "shadow-sm", "text-slate-600");
       if (on) link.classList.add("nav-on", "font-semibold", "shadow-sm");
@@ -540,7 +540,7 @@
         icon.classList.toggle("text-slate-400", !on);
       }
     });
-    const meta = window.LarcelNav && window.LarcelNav.byId[id];
+    const meta = window.LittleAngelsNav && window.LittleAngelsNav.byId[id];
     const appId = meta && meta.appId ? meta.appId : "";
     document.querySelectorAll("#sidebar [data-app]").forEach(function (link) {
       const on = link.dataset.app === appId;
@@ -806,7 +806,7 @@
   function restoreVersion(id) {
     const entry = state.versions.filter(function (item) { return item.id === id; })[0];
     if (!entry || !entry.snap) { toast("That version is no longer available"); return; }
-    const meta = window.LarcelNav && window.LarcelNav.byId[entry.page];
+    const meta = window.LittleAngelsNav && window.LittleAngelsNav.byId[entry.page];
     const data = meta && ensureBook(meta);
     const row = data && data.rows.filter(function (item) { return item.id === entry.recordId; })[0];
     if (!row) { toast("That record is no longer on the page"); return; }
@@ -955,6 +955,7 @@
     "Document Verification": ["Applicant", "Document", "Check", "Reviewer", "Notes"],
     "Admission Decision": ["Applicant", "Decision", "Conditions", "Reviewer", "Date"],
     "Decisions": ["Applicant", "Decision", "Conditions", "Reviewer", "Date"],
+    "Enrollment": ["Legal name", "Grade", "Date of birth", "Class and stream", "Guardian", "Guardian email", "Address", "Documents"],
     "Guardians": ["Full name", "Phone or email", "Relationship", "Identity status", "Address", "Emergency priority", "Authorized pickup", "Linked students"],
     "Timetable": ["Class", "Subject", "Teacher", "Room", "Weekday", "Start", "End"],
     "Corrections": ["Date", "Class", "Student", "Original mark", "Corrected mark", "Reason"],
@@ -1040,11 +1041,59 @@
     "Quiz Library": ["Course", "Objective", "Prompt", "Question type", "Answers", "Difficulty"],
     "Live Classes": ["Course", "Teacher", "Roster", "When", "Meeting link"],
     "Ask AI Tutor": ["Learner", "Grade", "Question", "Source", "Session"],
-    "Support Desk": ["Requester", "Category", "Description", "Urgency", "Assignee"]
+    "Support Desk": ["Requester", "Category", "Description", "Urgency", "Assignee"],
+    "Documents & ID cards": ["Student", "Document", "On file", "Notes"],
+    "Promotion & leaving": ["Student", "From class", "To class", "Decision", "Date"],
+    "Daily": ["Date", "Class", "Student", "Mark"],
+    "By period": ["Date", "Class", "Period", "Student", "Mark"],
+    "Absence requests": ["Student", "From", "To", "Reason", "Guardian"],
+    "Behavior": ["Student", "Date", "What happened", "Follow-up"],
+    "Clinic": ["Student", "Visit time", "Concern", "Care provided"],
+    "Safeguarding": ["Case ID", "Category", "Safeguarding lead", "Follow-up"],
+    "Classes & streams": ["Grade", "Stream", "Campus", "Capacity", "Homeroom teacher", "Year"],
+    "Allocation": ["Student", "Class", "Stream", "From"],
+    "Teachers": ["Teacher", "Class", "Subject"],
+    "Rooms": ["Room", "Capacity", "Class"],
+    "Class": ["Class", "Subject", "Teacher", "Room", "Weekday", "Start", "End"],
+    "Teacher": ["Teacher", "Class", "Subject", "Room", "Weekday", "Start", "End"],
+    "Cover": ["Absent teacher", "Cover", "Class", "Date"],
+    "Curriculum": ["Class", "Subject", "Outcome", "Resources"],
+    "Courses": ["Course", "Grade", "Teacher"],
+    "Quizzes": ["Course", "Objective", "Question type", "Difficulty"],
+    "AI tutor": ["Learner", "Grade", "Question", "Source"],
+    "Hiring": ["Applicant", "Role", "Stage", "Owner"],
+    "Cases": ["Staff", "Case", "Status", "Owner"],
+    "Case history": ["Staff", "Case", "Closed", "Outcome"],
+    "Pay runs": ["Period", "Employees", "Net pay", "Status"],
+    "Calendar": ["Date", "Event", "Audience"],
+    "School day": ["Bell", "Start", "End"],
+    "Profile": ["School", "Level", "Address", "Phone"],
+    "Events calendar": ["Date", "Event", "Place"],
+    "Rollover": ["From year", "To year", "Classes", "Date"],
+    "Structures": ["Period", "Grade", "Fee items", "Due dates"],
+    "Payments": ["Student", "Amount", "Method", "Receipt"],
+    "Direct messages": ["From", "To", "Message", "Channel"],
+    "Late and early": ["Student", "Time", "Direction", "Reason", "Collected by"],
+    "Parent requests": ["Guardian", "Request", "Status"],
+    "Post": ["From", "Subject", "Received"],
+    "Approvals": ["Request", "From", "Status"],
+    "Catalog": ["Title", "Author", "Barcode", "Copies"],
+    "Borrowing": ["Borrower", "Title", "Due"],
+    "Fines": ["Borrower", "Title", "Due", "Fine"],
+    "Routes": ["Route", "Stop", "Time"],
+    "Pupils": ["Student", "Route", "Stop", "Pickup"],
+    "Stock": ["Item", "Quantity", "Location"],
+    "Purchases": ["Department", "Items", "Required date"],
+    "Trips": ["Trip", "Class", "Date", "Place"],
+    "Sports": ["Team", "Coach", "Students"],
+    "Feedback": ["Form", "Audience", "Responses"],
+    "Years & terms": ["Year", "Terms", "Start", "End"],
+    "General": ["Setting", "Value"],
+    "Help": ["Topic", "Owner"]
   };
 
   function canonicalFields(meta) {
-    const page = meta || (window.LarcelNav && window.LarcelNav.byId[state.page]);
+    const page = meta || (window.LittleAngelsNav && window.LittleAngelsNav.byId[state.page]);
     return page && CANON[page.label] ? CANON[page.label] : null;
   }
 
@@ -1337,7 +1386,7 @@
   }
 
   function pageNoun() {
-    const meta = window.LarcelNav && window.LarcelNav.byId[state.page];
+    const meta = window.LittleAngelsNav && window.LittleAngelsNav.byId[state.page];
     return meta ? meta.label : "record";
   }
 
@@ -1394,6 +1443,154 @@
 
   function pupilNamed(value) {
     return state.pupils360.filter(function (pupil) { return pupil.name === value; })[0];
+  }
+
+  function classFor(grade) {
+    const text = String(grade || "");
+    if (/kindergart|nursery|^kg\b/i.test(text)) return { cls: "KG A", teacher: "Ms. Alvarez", room: "Room 4" };
+    if (/grade\s*2/i.test(text)) return { cls: text, teacher: "Mr. Shah", room: "Lab" };
+    if (/grade\s*6/i.test(text)) return { cls: text, teacher: "Dr. Nguyen", room: "Room 6" };
+    if (/grade\s*4/i.test(text)) return { cls: text, teacher: "Ms. Alvarez", room: "Room 4" };
+    return { cls: text || "Unassigned", teacher: "Unassigned", room: "Office" };
+  }
+
+  function nextSid() {
+    let max = 1000;
+    state.pupils360.concat(state.students).forEach(function (row) {
+      const number = parseInt(String(row.sid || "").replace(/\D/g, ""), 10);
+      if (number > max) max = number;
+    });
+    return "ST-" + (max + 1);
+  }
+
+  function pupilIdFor(name) {
+    const base = String(name).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "pupil";
+    let id = base;
+    let n = 2;
+    while (state.pupils360.some(function (pupil) { return pupil.id === id; })) {
+      id = base + "-" + n;
+      n += 1;
+    }
+    return id;
+  }
+
+  function admissionGiven(text) {
+    return /offer|admit|accept|enroll|given|approved/i.test(String(text || ""));
+  }
+
+  function placeOnRoll(info) {
+    const name = String(info.name || "").trim();
+    if (!name) return null;
+    const existing = pupilNamed(name);
+    const placement = classFor(info.grade || (existing && existing.grade) || "");
+    const created = !existing;
+    const pupil = existing || {
+      id: pupilIdFor(name),
+      sid: nextSid(),
+      status: "Active",
+      gender: "—",
+      dob: "Not recorded",
+      joined: "Oct 2026",
+      nationality: "Kenyan",
+      address: "Not recorded",
+      transport: "Not set",
+      attendance: "—",
+      roll: { present: 0, absent: 0, late: 0 },
+      fees: { balance: "UGX 0", plan: "New admission", paid: "Not billed" },
+      parents: [],
+      health: { blood: "—", allergies: "Not recorded", conditions: "Not recorded", medication: "None", clinic: "New admission", emergency: "Not recorded", note: "Admitted from the office. Finish any missing details on this profile." },
+      marks: [],
+      documents: [["Birth certificate", "Waiting"], ["Clinic card", "Waiting"]],
+      discipline: [],
+    };
+    pupil.name = name;
+    pupil.grade = info.grade || pupil.grade || "Unassigned";
+    pupil.cls = info.cls || pupil.cls || placement.cls;
+    pupil.teacher = info.teacher || pupil.teacher || placement.teacher;
+    pupil.room = info.room || pupil.room || placement.room;
+    if (info.dob) pupil.dob = info.dob;
+    if (info.gender) pupil.gender = info.gender;
+    if (info.address) pupil.address = info.address;
+    const guardianName = info.guardian && info.guardian !== "—" ? info.guardian : "";
+    const email = info.email && info.email !== "—" ? info.email : "";
+    if (guardianName || email) {
+      const match = pupil.parents.filter(function (parent) {
+        return (guardianName && parent.name === guardianName) || (email && parent.email === email);
+      })[0];
+      if (match) {
+        if (guardianName) match.name = guardianName;
+        if (email) match.email = email;
+      } else {
+        pupil.parents.unshift({ name: guardianName || "Guardian", relation: "Guardian", phone: info.phone || "—", email: email || "—", pickup: "Yes" });
+      }
+      const first = pupil.parents[0];
+      if (first) pupil.health.emergency = first.name + (first.phone && first.phone !== "—" ? " · " + first.phone : "");
+    }
+    if (created) state.pupils360.unshift(pupil);
+    let student = state.students.filter(function (item) { return item.name === name; })[0];
+    if (!student) {
+      state.students.unshift({ name: name, sid: pupil.sid, grade: pupil.grade, advisor: pupil.teacher, status: pupil.status || "Active" });
+    } else {
+      student.sid = pupil.sid;
+      student.grade = pupil.grade;
+      student.advisor = pupil.teacher;
+    }
+    state.pupilId = pupil.id;
+    return { pupil: pupil, created: created };
+  }
+
+  function markApplicantEnrolled(name, grade, email) {
+    let row = state.applicants.filter(function (item) { return item.name === name; })[0];
+    if (!row) {
+      state.applicants.unshift({
+        name: name,
+        email: email && email !== "—" ? email : "",
+        grade: grade || "",
+        status: "Enrolled",
+        tone: "emerald",
+        date: "2026-10-11",
+        display: "Oct 11, 2026",
+      });
+      return;
+    }
+    row.status = "Enrolled";
+    row.tone = applicantTone("Enrolled");
+    if (grade) row.grade = grade;
+    if (email && email !== "—") row.email = email;
+  }
+
+  function admitFromRecord(next) {
+    const meta = window.LittleAngelsNav && window.LittleAngelsNav.byId[state.page];
+    if (!meta) return null;
+    const extra = next.extra || {};
+    if (meta.label === "Enrollment") {
+      return placeOnRoll({
+        name: next.a,
+        grade: next.b,
+        dob: next.c,
+        cls: extra["Class and stream"],
+        guardian: extra["Guardian"],
+        email: extra["Guardian email"],
+        address: extra["Address"],
+      });
+    }
+    if (meta.label === "Decisions" && admissionGiven(next.b)) {
+      const applicant = state.applicants.filter(function (item) { return item.name === next.a; })[0];
+      return placeOnRoll({
+        name: next.a,
+        grade: applicant ? applicant.grade : "",
+        email: applicant ? applicant.email : "",
+      });
+    }
+    return null;
+  }
+
+  function admitNote(next) {
+    const result = admitFromRecord(next);
+    if (!result) return "";
+    const parent = result.pupil.parents[0];
+    markApplicantEnrolled(result.pupil.name, result.pupil.grade, parent ? parent.email : "");
+    return result.created ? " · now a student" : " · student details updated";
   }
 
   function teacherNamed(value) {
@@ -1508,7 +1705,7 @@
   }
 
   function recordDetailPage(meta, data, row) {
-    const sections = !meta.detail && window.LarcelNav && window.LarcelNav.detailsOf ? window.LarcelNav.detailsOf(meta.hub || meta.id) : [];
+    const sections = !meta.detail && window.LittleAngelsNav && window.LittleAngelsNav.detailsOf ? window.LittleAngelsNav.detailsOf(meta.hub || meta.id) : [];
     const back = '<nav aria-label="Back" class="flex flex-wrap items-center justify-between gap-3">' +
       '<button type="button" data-action="record-back" class="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-700 hover:text-slate-900">' +
       '<svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5"/></svg>Back to ' + esc(meta.label) + "</button>" +
@@ -1543,12 +1740,17 @@
     const notice = meta.restricted
       ? '<div class="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-800">Restricted record. Health, counseling, and safeguarding pages stay limited to authorized staff.</div>'
       : "";
-    return shell(esc(meta.label), data.rows.length + " records for " + esc(term) + ".",
+    const lede = meta.label === "Enrollment"
+      ? "Enter the admission. Saving adds the child to Students with these details."
+      : meta.label === "Decisions"
+      ? "When the decision is an offer or admission, they join Students with a full record."
+      : data.rows.length + " records for " + esc(term) + ".";
+    return shell(esc(meta.label), lede,
       notice + statGrid(data) + tablePanel(data));
   }
 
   function pageStats() {
-    const meta = window.LarcelNav && window.LarcelNav.byId[state.page];
+    const meta = window.LittleAngelsNav && window.LittleAngelsNav.byId[state.page];
     if (!meta) return "";
     const data = ensureBook(meta);
     return statGrid(data) + tablePanel(data);
@@ -1710,12 +1912,12 @@
       existing.extra = next.extra;
       pushVersion({ kind: "record", page: state.page, recordId: existing.id, label: before.a, when: "Just now", who: state.me.name, note: "Before edit", snap: before });
       refreshBook(data);
-      toast(next.a + (isOnline() ? " updated" : " updated · saved offline"));
+      toast(next.a + (isOnline() ? " updated" : " updated · saved offline") + admitNote(next));
       return;
     }
     data.rows.unshift({ id: data.id + "-" + Date.now(), a: next.a, b: next.b, c: next.c, status: next.status, extra: next.extra });
     refreshBook(data);
-    toast(next.a + (isOnline() ? " added" : " added · saved offline"));
+    toast(next.a + (isOnline() ? " added" : " added · saved offline") + admitNote(next));
   }
 
   function deleteRows(data, ids) {
@@ -1753,7 +1955,7 @@
   }
 
   function currentView() {
-    const meta = window.LarcelNav && window.LarcelNav.byId[state.page];
+    const meta = window.LittleAngelsNav && window.LittleAngelsNav.byId[state.page];
     return meta && meta.view ? meta.view : state.page;
   }
 
@@ -2340,7 +2542,7 @@
   }
 
   function show(id, fromHistory) {
-    const nav = window.LarcelNav;
+    const nav = window.LittleAngelsNav;
     const resolved = resolvedPage(id);
     const meta = nav && nav.byId[resolved];
     const view = meta && meta.view ? meta.view : (meta ? "" : id);
@@ -2377,7 +2579,7 @@
   }
 
   function flowStrip() {
-    const nav = window.LarcelNav;
+    const nav = window.LittleAngelsNav;
     const meta = nav && nav.byId[state.page];
     if (!meta || !meta.moduleId) return "";
     const steps = nav.pages.filter(function (item) {
@@ -2422,7 +2624,7 @@
     }
     return rows.map(function (student) {
       const tone = student.status === "Watch" ? "amber" : "emerald";
-      return "<tr class=\"hover:bg-slate-50/70\"><td class=\"py-2.5 px-3 font-semibold text-slate-900\">" + esc(student.name) +
+      return "<tr class=\"hover:bg-slate-50/70\"><td class=\"py-2.5 px-3\"><button type=\"button\" data-action=\"open-pupil\" data-name=\"" + esc(student.name) + "\" class=\"font-semibold text-slate-900 hover:underline\">" + esc(student.name) + "</button>" +
         "</td><td class=\"py-2.5 px-3 text-slate-500\">" + esc(student.sid) +
         "</td><td class=\"py-2.5 px-3\">" + esc(student.grade) +
         "</td><td class=\"py-2.5 px-3\">" + esc(student.advisor) +
@@ -2531,7 +2733,7 @@
 
   function clockSpan() {
     if (state.clockSpan) return state.clockSpan;
-    const meta = window.LarcelNav && window.LarcelNav.byId[state.page];
+    const meta = window.LittleAngelsNav && window.LittleAngelsNav.byId[state.page];
     const view = meta && meta.view;
     if (view === "teacherprofile" || view === "timeweek") return "week";
     return "today";
@@ -3275,10 +3477,10 @@
         "</section>" +
         card('<h2 class="text-sm font-semibold text-slate-900">Discipline</h2><p class="mt-0.5 text-xs text-slate-500">' + (openCases.length ? openCases.length + " case" + (openCases.length === 1 ? "" : "s") + " still open." : "Nothing open on this record.") + '</p><div class="mt-3 overflow-x-auto"><table data-no-view="1" class="w-full text-left text-xs"><thead class="text-[11px] uppercase text-slate-400 border-y border-slate-100"><tr><th class="py-2 px-3">Date</th><th class="py-2 px-3">Type</th><th class="py-2 px-3">What happened</th><th class="py-2 px-3">Outcome</th><th class="py-2 px-3">Status</th></tr></thead><tbody class="divide-y divide-slate-100">' + discipline + "</tbody></table></div>") +
         card('<h2 class="text-sm font-semibold text-slate-900 mb-1">Personal details</h2><dl class="grid grid-cols-2 gap-x-6 text-xs lg:grid-cols-3">' + facts + "</dl>") +
-        card('<h2 class="text-sm font-semibold text-slate-900 mb-2">Parents and guardians</h2><div class="overflow-x-auto"><table data-no-view="1" class="w-full text-left text-xs"><thead class="text-[11px] uppercase text-slate-400 border-y border-slate-100"><tr><th class="py-2 px-3">Name</th><th class="py-2 px-3">Relation</th><th class="py-2 px-3">Phone</th><th class="py-2 px-3">Email</th><th class="py-2 px-3">Pickup</th></tr></thead><tbody class="divide-y divide-slate-100">' + parents + "</tbody></table></div>") +
+        card('<h2 class="text-sm font-semibold text-slate-900 mb-2">Parents and guardians</h2><div class="overflow-x-auto"><table data-managed="1" class="w-full text-left text-xs"><thead class="text-[11px] uppercase text-slate-400 border-y border-slate-100"><tr><th class="py-2 px-3">Name</th><th class="py-2 px-3">Relation</th><th class="py-2 px-3">Phone</th><th class="py-2 px-3">Email</th><th class="py-2 px-3">Pickup</th></tr></thead><tbody class="divide-y divide-slate-100">' + parents + "</tbody></table></div>") +
         card('<h2 class="text-sm font-semibold text-slate-900 mb-1">Health</h2><p class="text-xs text-slate-500 mb-2">' + esc(pupil.health.note) + '</p><dl class="text-xs">' + healthRows + "</dl>") +
-        card('<h2 class="text-sm font-semibold text-slate-900 mb-2">Class marks</h2><table class="w-full text-left text-xs"><tbody class="divide-y divide-slate-100">' + marks + "</tbody></table>") +
-        card('<div class="grid gap-6 lg:grid-cols-2"><div><h2 class="text-sm font-semibold text-slate-900 mb-2">Documents</h2><table class="w-full text-left text-xs"><tbody class="divide-y divide-slate-100">' + documents + '</tbody></table></div><div><h2 class="text-sm font-semibold text-slate-900 mb-2">Fees</h2><dl class="text-xs"><div class="flex items-center justify-between gap-4 py-2 border-b border-slate-100"><dt class="text-slate-400">Balance</dt><dd class="font-semibold text-slate-900">' + esc(fees.balance) + '</dd></div><div class="flex items-center justify-between gap-4 py-2 border-b border-slate-100"><dt class="text-slate-400">Plan</dt><dd class="font-semibold text-slate-900">' + esc(fees.plan) + '</dd></div><div class="flex items-center justify-between gap-4 py-2"><dt class="text-slate-400">Standing</dt><dd class="font-semibold text-slate-900">' + esc(fees.paid) + "</dd></div></dl></div></div>"));
+        card('<h2 class="text-sm font-semibold text-slate-900 mb-2">Class marks</h2><table data-managed="1" class="w-full text-left text-xs"><tbody class="divide-y divide-slate-100">' + marks + "</tbody></table>") +
+        card('<div class="grid gap-6 lg:grid-cols-2"><div><h2 class="text-sm font-semibold text-slate-900 mb-2">Documents</h2><table data-managed="1" class="w-full text-left text-xs"><tbody class="divide-y divide-slate-100">' + documents + '</tbody></table></div><div><h2 class="text-sm font-semibold text-slate-900 mb-2">Fees</h2><dl class="text-xs"><div class="flex items-center justify-between gap-4 py-2 border-b border-slate-100"><dt class="text-slate-400">Balance</dt><dd class="font-semibold text-slate-900">' + esc(fees.balance) + '</dd></div><div class="flex items-center justify-between gap-4 py-2 border-b border-slate-100"><dt class="text-slate-400">Plan</dt><dd class="font-semibold text-slate-900">' + esc(fees.plan) + '</dd></div><div class="flex items-center justify-between gap-4 py-2"><dt class="text-slate-400">Standing</dt><dd class="font-semibold text-slate-900">' + esc(fees.paid) + "</dd></div></dl></div></div>"));
     },
     copilot: function () {
       const thread = state.chat.map(function (message) {
@@ -3300,7 +3502,7 @@
       const watch = state.students.filter(function (student) { return student.status === "Watch"; }).length;
       const grades = {};
       state.students.forEach(function (student) { grades[student.grade] = true; });
-      return shell("Students & Admissions", "Active roster for Little Royals.",
+      return shell("Students", "Everyone on the roll. A granted or entered admission appears here, and the name opens their details.",
         '<section class="grid grid-cols-2 lg:grid-cols-4 gap-3">' +
         statCard("Pupils", String(state.students.length), "on this roster") +
         statCard("Watch", String(watch), watch ? "needs a look" : "none waiting") +
@@ -3308,7 +3510,7 @@
         statCard("Active", String(state.students.length - watch), "on the roll") +
         "</section>" +
         '<article class="bg-white rounded-xl border border-slate-200 overflow-hidden"><div class="flex flex-wrap items-start justify-between gap-3 px-5 py-4"><div><h2 class="text-sm font-semibold text-slate-900">Students</h2><p class="mt-0.5 text-xs text-slate-500">Browse, search and manage pupils.</p></div><div class="flex flex-wrap items-center gap-2"><label class="relative"><span class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">' + glyph(ICON_SEARCH) + '</span><input id="student-filter" value="' + esc(state.studentQuery) + '" class="w-52 rounded-full border border-slate-200 bg-white py-1.5 pl-8 pr-3 text-xs placeholder:text-slate-400 focus:outline-none focus:ring-1 focus:ring-slate-300" placeholder="Search students" /></label><button type="button" data-action="add-student" class="' + primaryBtn + '">+ New student</button></div></div>' +
-        '<div class="overflow-x-auto border-t border-slate-100"><table class="w-full text-left text-xs"><thead class="bg-slate-50/80 text-[11px] font-medium uppercase tracking-wider text-slate-400"><tr><th class="py-2.5 px-4">Name</th><th class="py-2.5 px-3">ID</th><th class="py-2.5 px-3">Grade</th><th class="py-2.5 px-3">Advisor</th><th class="py-2.5 px-4">Status</th></tr></thead><tbody id="student-body" class="divide-y divide-slate-100">' + studentRowsHtml() + "</tbody></table></div></article>");
+        '<div class="overflow-x-auto border-t border-slate-100"><table data-managed="1" class="w-full text-left text-xs"><thead class="bg-slate-50/80 text-[11px] font-medium uppercase tracking-wider text-slate-400"><tr><th class="py-2.5 px-4">Name</th><th class="py-2.5 px-3">ID</th><th class="py-2.5 px-3">Grade</th><th class="py-2.5 px-3">Advisor</th><th class="py-2.5 px-4">Status</th></tr></thead><tbody id="student-body" class="divide-y divide-slate-100">' + studentRowsHtml() + "</tbody></table></div></article>");
     },
     curriculum: function () {
       const courses = [
@@ -3481,9 +3683,9 @@
         return "<tr><td class=\"py-2.5 px-3 font-semibold text-slate-900\">" + esc(row.name) + "</td><td class=\"py-2.5 px-3\">" + esc(row.period) +
           "</td><td class=\"py-2.5 px-3\"><button type=\"button\" data-action=\"toggle-present\" data-index=\"" + index + "\" class=\"" + (row.present ? "text-emerald-700" : "text-rose-600") + " font-semibold\">" + (row.present ? "Present" : "Absent") + "</button></td></tr>";
       }).join("");
-      return shell("Attendance & Safety", "Today's sample roster. Toggle a student to update the live rate.",
-        '<div class="grid grid-cols-1 md:grid-cols-3 gap-4"><article class="bg-white p-4 rounded-xl border border-slate-200/80 shadow-card"><p class="text-xs text-slate-500">Present now</p><p class="text-2xl font-bold text-slate-900 mt-1">' + rate + '%</p></article>' +
-        card('<table class="w-full text-left text-xs md:col-span-2"><thead class="text-[11px] uppercase text-slate-400 border-y border-slate-100"><tr><th class="py-2 px-3">Student</th><th class="py-2 px-3">Class</th><th class="py-2 px-3">Mark</th></tr></thead><tbody class="divide-y divide-slate-100">' + rows + "</tbody></table>") + "</div>");
+      return shell("Daily attendance", "Today's roster. Toggle a student to update the live rate.",
+        '<div class="grid items-start gap-4 lg:grid-cols-[11rem_minmax(0,1fr)]"><article class="bg-white p-4 rounded-xl border border-slate-200/80 shadow-card"><p class="text-xs text-slate-500">Present now</p><p class="text-2xl font-bold text-slate-900 mt-1">' + rate + "%</p></article>" +
+        card('<table data-managed="1" class="w-full text-left text-xs"><thead class="text-[11px] uppercase text-slate-400 border-y border-slate-100"><tr><th class="py-2 px-3">Student</th><th class="py-2 px-3">Class</th><th class="py-2 px-3">Mark</th></tr></thead><tbody class="divide-y divide-slate-100">' + rows + "</tbody></table>") + "</div>");
     },
     schedules: function () {
       const rows = state.classes.map(function (item) {
@@ -3890,7 +4092,7 @@
         '<button type="button" data-action="goto" data-page="admin-school-settings-branding" class="' + ghostBtn + '">Change logo</button>');
     },
     benchmarks: function () {
-      const meta = window.LarcelNav && window.LarcelNav.byId[state.page];
+      const meta = window.LittleAngelsNav && window.LittleAngelsNav.byId[state.page];
       const label = meta ? meta.label : "School Benchmarks";
       const rows = visibleBenchmarks();
       const met = rows.filter(function (item) { return meetsBench(item.target, item.result); }).length;
@@ -4117,7 +4319,7 @@
       hideSearch();
       return;
     }
-    const catalog = window.LarcelNav ? window.LarcelNav.pages : [];
+    const catalog = window.LittleAngelsNav ? window.LittleAngelsNav.pages : [];
     const pages = catalog.filter(function (item) {
       if (item.hidden) return false;
       return (item.label + " " + item.app + " " + item.module).toLowerCase().indexOf(needle) !== -1;
@@ -4147,8 +4349,8 @@
   }
 
   function bindNavigation() {
-    if (window.LarcelNav) {
-      window.LarcelNav.mount(document.getElementById("app-nav"), {
+    if (window.LittleAngelsNav) {
+      window.LittleAngelsNav.mount(document.getElementById("app-nav"), {
         onPage: show,
         onSearch: function () {
           setTimeout(function () { searchInput.focus(); searchInput.select(); }, 30);
@@ -4331,7 +4533,20 @@
     }
     const names = Array.from(state.selected);
     openModal("Batch review", "<p class=\"mb-2\">" + names.length + " applicant" + (names.length === 1 ? "" : "s") + " selected.</p><ul class=\"list-disc pl-4 space-y-1\">" + names.map(function (name) { return "<li>" + esc(name) + "</li>"; }).join("") + "</ul>", [
-      { label: "Mark reviewed", primary: true, run: function () {
+      { label: "Give admission", primary: true, run: function () {
+        let created = 0;
+        state.applicants.forEach(function (row) {
+          if (!state.selected.has(row.name)) return;
+          row.status = "Enrolled";
+          row.tone = "emerald";
+          const result = placeOnRoll({ name: row.name, grade: row.grade, email: row.email });
+          if (result && result.created) created += 1;
+        });
+        state.selected.clear();
+        renderApplicants();
+        toast(names.length + " admitted" + (created ? " · " + created + " new student" + (created === 1 ? "" : "s") : ""));
+      } },
+      { label: "Mark reviewed", run: function () {
         state.applicants.forEach(function (row) {
           if (state.selected.has(row.name)) { row.status = "Reviewed"; row.tone = "emerald"; }
         });
@@ -4386,7 +4601,7 @@
         const cells = rows[i];
         if (!cells[0]) continue;
         const status = cells[3] || "Interviewing";
-        state.applicants.unshift({
+        const row = {
           name: cells[0],
           email: cells[1] || "",
           grade: cells[2] || "Kindergarten",
@@ -4394,7 +4609,9 @@
           tone: applicantTone(status),
           date: cells[4] || "",
           display: cells[4] || "Imported",
-        });
+        };
+        state.applicants.unshift(row);
+        if (admissionGiven(status)) placeOnRoll({ name: row.name, grade: row.grade, email: row.email });
         added += 1;
       }
       if (!added) { toast("No rows to import"); return; }
@@ -4433,9 +4650,10 @@
           row.grade = document.getElementById("applicant-grade").value.trim();
           row.status = document.getElementById("applicant-status").value.trim() || row.status;
           row.tone = applicantTone(row.status);
+          const admitted = admissionGiven(row.status) ? placeOnRoll({ name: row.name, grade: row.grade, email: row.email }) : null;
           closeModal();
           renderApplicants();
-          toast("Saved");
+          toast(admitted ? row.name + (admitted.created ? " is now a student" : " student details updated") : "Saved");
         } },
         { label: "Cancel", run: function () {} },
       ]);
@@ -4445,8 +4663,9 @@
       const index = flow.indexOf(row.status);
       row.status = flow[(index + 1) % flow.length];
       row.tone = applicantTone(row.status);
+      const admitted = admissionGiven(row.status) ? placeOnRoll({ name: row.name, grade: row.grade, email: row.email }) : null;
       renderApplicants();
-      toast(row.name + " updated to " + row.status);
+      toast(row.name + " updated to " + row.status + (admitted && admitted.created ? " · now a student" : ""));
     }
     if (button.dataset.action === "applicant-remove") {
       openModal("Delete " + row.name, "<p>Delete this applicant.</p>", [
@@ -4864,17 +5083,32 @@
       ]);
     }
     if (action === "ask") ask(button.dataset.prompt);
+    if (action === "open-pupil") {
+      const name = button.dataset.name;
+      let pupil = pupilNamed(name);
+      if (!pupil) {
+        const student = state.students.filter(function (item) { return item.name === name; })[0];
+        if (student) placeOnRoll({ name: student.name, grade: student.grade, teacher: student.advisor });
+        pupil = pupilNamed(name);
+      }
+      if (!pupil) return;
+      state.pupilId = pupil.id;
+      show("student360");
+    }
     if (action === "add-student") {
-      openModal("Add pupil", '<form id="add-student-form" class="space-y-2"><input id="new-student-name" class="w-full text-xs rounded-lg border border-slate-200 px-3 py-2" placeholder="Full name" /><input id="new-student-grade" class="w-full text-xs rounded-lg border border-slate-200 px-3 py-2" placeholder="Grade, e.g. Grade 3" /><input id="new-student-advisor" class="w-full text-xs rounded-lg border border-slate-200 px-3 py-2" placeholder="Class teacher" /></form>', [
+      openModal("Add pupil", '<form id="add-student-form" class="space-y-2"><input id="new-student-name" class="w-full text-xs rounded-lg border border-slate-200 px-3 py-2" placeholder="Full name" /><input id="new-student-grade" class="w-full text-xs rounded-lg border border-slate-200 px-3 py-2" placeholder="Grade, e.g. Grade 3" /><input id="new-student-advisor" class="w-full text-xs rounded-lg border border-slate-200 px-3 py-2" placeholder="Class teacher" /><input id="new-student-guardian" class="w-full text-xs rounded-lg border border-slate-200 px-3 py-2" placeholder="Guardian" /><input id="new-student-email" class="w-full text-xs rounded-lg border border-slate-200 px-3 py-2" placeholder="Guardian email" /></form>', [
         { label: "Save student", primary: true, close: false, run: function () {
           const name = document.getElementById("new-student-name").value.trim();
           const grade = document.getElementById("new-student-grade").value.trim();
           const advisor = document.getElementById("new-student-advisor").value.trim();
+          const guardian = document.getElementById("new-student-guardian").value.trim();
+          const email = document.getElementById("new-student-email").value.trim();
           if (!name || !grade) { toast("Name and grade are required"); return; }
-          state.students.unshift({ name: name, sid: "ST-" + (1000 + state.students.length), grade: grade, advisor: advisor || "Unassigned", status: "Active" });
+          placeOnRoll({ name: name, grade: grade, teacher: advisor, guardian: guardian, email: email });
+          markApplicantEnrolled(name, grade, email);
           closeModal();
           show("students");
-          toast(name + " added to the roster");
+          toast(name + " added with student details");
         } },
         { label: "Cancel", run: function () {} },
       ]);
@@ -5394,10 +5628,10 @@
     show(next, true);
   });
   const hash = (location.hash || "").replace(/^#/, "");
-  if (hash && window.LarcelNav && (window.LarcelNav.byId[hash] || window.LarcelNav.alias[hash] || PAGES[hash] || hash === "dashboard")) show(hash, true);
+  if (hash && window.LittleAngelsNav && (window.LittleAngelsNav.byId[hash] || window.LittleAngelsNav.alias[hash] || PAGES[hash] || hash === "dashboard")) show(hash, true);
   else {
     syncNav("dashboard");
-    if (window.LarcelNav) window.LarcelNav.paintTabs("dashboard");
+    if (window.LittleAngelsNav) window.LittleAngelsNav.paintTabs("dashboard");
   }
   renderApplicants();
   paintNotice();

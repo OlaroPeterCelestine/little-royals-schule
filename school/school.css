@@ -15,13 +15,18 @@ body {
       );
     }
     #sidebar { width: 19rem; min-width: 19rem; flex-basis: 19rem; transition: width 180ms ease, min-width 180ms ease, flex-basis 180ms ease, transform 180ms ease; }
-    #app-nav { display: flex; flex-direction: column; min-height: 0; }
-    #app-nav .nav-list { display: flex; flex: 1 1 auto; flex-direction: column; min-height: 100%; }
-    #app-nav .nav-list > .global-link,
-    #app-nav .nav-list > .app-block { flex: 1 1 0; display: flex; align-items: center; min-height: 1.7rem; }
-    #app-nav .global-link, #app-nav .app-toggle { padding-top: 0.2rem; padding-bottom: 0.2rem; }
-    #app-nav .app-block { flex-direction: column; align-items: stretch; justify-content: center; }
-    #app-nav .app-toggle { display: flex; align-items: center; width: 100%; }
+    #app-nav { min-height: 0; overflow-y: auto; scrollbar-width: thin; scrollbar-color: #cbd5e1 transparent; }
+    #app-nav .nav-sections { display: flex; flex-direction: column; gap: 1.15rem; padding-bottom: 0.5rem; }
+    #app-nav .nav-kicker { display: flex; align-items: center; gap: 0.55rem; padding: 0.15rem 0.55rem; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: #64748b; }
+    #app-nav .nav-kicker .nav-icon { color: #94a3b8; }
+    #app-nav .nav-pages { display: flex; flex-direction: column; gap: 0.1rem; margin: 0.2rem 0 0 1.15rem; padding-left: 0.55rem; border-left: 1px solid #e2e8f0; }
+    #app-nav .nav-sub { margin: 0.35rem 0.5rem 0.1rem; font-size: 0.62rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: #94a3b8; }
+    html.sidebar-collapsed #sidebar .nav-pages,
+    html.sidebar-collapsed #sidebar .nav-sub { display: none !important; }
+    html.sidebar-collapsed #sidebar .nav-kicker { justify-content: center; padding-left: 0.5rem; padding-right: 0.5rem; }
+    #app-nav::-webkit-scrollbar { width: 6px; }
+    #app-nav::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 999px; }
+    #sidebar [data-purpose="credit-usage-widget"] { flex-shrink: 0; }
     #nav-backdrop { display: none; }
     #sidebar-toggle svg { transition: transform 180ms ease; }
     html.sidebar-collapsed #sidebar { width: 4.75rem; min-width: 4.75rem; max-width: 4.75rem; flex-basis: 4.75rem; }
