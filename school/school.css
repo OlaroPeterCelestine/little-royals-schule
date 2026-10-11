@@ -1,0 +1,80 @@
+body {
+      font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+      -webkit-font-smoothing: antialiased;
+    }
+    .tabular-nums {
+      font-variant-numeric: tabular-nums;
+    }
+    /* Donut Chart CSS Conic Gradient for 4 Grades */
+    .donut-gauge {
+      background: conic-gradient(
+        #0EA5E9 0deg 97.2deg,       /* Kindergarten ~27% */
+        #6366F1 97.2deg 187.2deg,   /* Grade 1–2 ~25% */
+        #F59E0B 187.2deg 273.6deg,  /* Grade 3–4 ~24% */
+        #10B981 273.6deg 360deg     /* Grade 5–6 ~24% */
+      );
+    }
+    #sidebar { width: 19rem; min-width: 19rem; flex-basis: 19rem; transition: width 180ms ease, min-width 180ms ease, flex-basis 180ms ease, transform 180ms ease; }
+    #nav-backdrop { display: none; }
+    #sidebar-toggle svg { transition: transform 180ms ease; }
+    html.sidebar-collapsed #sidebar { width: 4.75rem; min-width: 4.75rem; max-width: 4.75rem; flex-basis: 4.75rem; }
+    html.sidebar-collapsed #sidebar [data-purpose="brand-header"] {
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+      padding-left: 0;
+      padding-right: 0;
+    }
+    html.sidebar-collapsed #sidebar [data-purpose="brand-header"] .flex-col { display: none; }
+    html.sidebar-collapsed #sidebar [data-purpose="brand-header"] img { height: 2.25rem; width: 2.25rem; }
+    html.sidebar-collapsed #sidebar .nav-label,
+    html.sidebar-collapsed #sidebar .nav-chevron,
+    html.sidebar-collapsed #sidebar .nav-badge,
+    html.sidebar-collapsed #sidebar .app-body { display: none !important; }
+    html.sidebar-collapsed #sidebar .app-toggle,
+    html.sidebar-collapsed #sidebar .global-link { justify-content: center; padding-left: 0.5rem; padding-right: 0.5rem; }
+    html.sidebar-collapsed #sidebar [data-purpose="credit-usage-widget"] { display: none; }
+    html.sidebar-collapsed #sidebar-toggle svg { transform: rotate(180deg); }
+    #sidebar nav svg { flex-shrink: 0; }
+    #sidebar a.nav-on, #sidebar button.nav-on { background: #1e4b9b; color: #fff; }
+    #sidebar a.nav-on .nav-icon, #sidebar button.nav-on .nav-icon,
+    #sidebar button.nav-on .nav-chevron { color: #fff; }
+    #sidebar .app-toggle .nav-chevron { transition: transform 160ms ease; }
+    #sidebar .app-toggle[aria-expanded="true"] .nav-chevron { transform: rotate(180deg); }
+    #top-tabs a { white-space: nowrap; }
+    html, body { overflow: hidden; max-width: 100%; }
+    main, #page-tabs, header { min-width: 0; }
+    #page-tabs { overflow: visible; }
+    #sidebar, #canvas, #top-tabs, .overflow-x-auto, .overflow-y-auto {
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+    #sidebar::-webkit-scrollbar, #canvas::-webkit-scrollbar, #top-tabs::-webkit-scrollbar,
+    .overflow-x-auto::-webkit-scrollbar, .overflow-y-auto::-webkit-scrollbar {
+      display: none;
+      width: 0;
+      height: 0;
+    }
+    .tab-scroll {
+      scrollbar-width: thin;
+      scrollbar-color: #cbd5e1 transparent;
+    }
+    .tab-scroll::-webkit-scrollbar { height: 6px; }
+    .tab-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 999px; }
+    #nav-open, #nav-backdrop { display: none !important; }
+    #net-status.online { color: #047857; background: #ecfdf5; border-color: #a7f3d0; }
+    #net-status.offline { color: #b45309; background: #fffbeb; border-color: #fde68a; }
+    #net-status.syncing { color: #0369a1; background: #f0f9ff; border-color: #bae6fd; }
+    #net-status.synced { color: #047857; background: #ecfdf5; border-color: #a7f3d0; }
+    #net-status.online #net-dot, #net-status.synced #net-dot { background: #10b981; }
+    #net-status.offline #net-dot { background: #f59e0b; }
+    #net-status.syncing #net-dot { background: #0ea5e9; animation: net-pulse 1s ease infinite; }
+    @keyframes net-pulse { 50% { opacity: 0.35; } }
+    #login-screen { background: #e8eaee; }
+    html.signed-in #login-screen { display: none; }
+    .login-input { width: 100%; border-radius: 0.6rem; border: 1px solid #e2e8f0; background: #fff; padding: 0.65rem 0.8rem; font-size: 0.875rem; color: #0f172a; outline: none; }
+    .login-input:focus { border-color: #7B61FF; box-shadow: 0 0 0 1px #7B61FF; }
+    .login-switch { position: relative; width: 2.75rem; height: 1.5rem; border-radius: 999px; background: #e2e8f0; transition: background 150ms ease; }
+    .login-switch[aria-checked="true"] { background: #7B61FF; }
+    .login-switch span { position: absolute; top: 2px; left: 2px; width: 1.25rem; height: 1.25rem; border-radius: 999px; background: #fff; box-shadow: 0 1px 2px rgba(15, 23, 42, 0.18); transition: transform 150ms ease; }
+    .login-switch[aria-checked="true"] span { transform: translateX(1.25rem); }
