@@ -1320,14 +1320,14 @@
     const n = selectedCount(data);
     const allOn = page.rows.length > 0 && page.rows.every(function (row) { return data.selected[row.id]; });
     const noun = pageNoun();
-    const selectCls = "text-xs rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-slate-700";
-    const tools = '<label class="relative"><span class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">' + glyph(ICON_SEARCH) + '</span>' +
-      '<input id="record-search" value="' + esc(data.query) + '" class="w-44 rounded-full border border-slate-200 bg-white py-1.5 pl-8 pr-3 text-xs text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-1 focus:ring-slate-300" placeholder="Search ' + esc(noun.toLowerCase()) + '" /></label>' +
+    const selectCls = "w-full min-w-0 text-xs rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-slate-700";
+    const tools = '<label class="relative min-w-0"><span class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">' + glyph(ICON_SEARCH) + '</span>' +
+      '<input id="record-search" value="' + esc(data.query) + '" class="w-full rounded-full border border-slate-200 bg-white py-1.5 pl-8 pr-3 text-xs text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-1 focus:ring-slate-300" placeholder="Search ' + esc(noun.toLowerCase()) + '" /></label>' +
       '<select id="record-status" class="' + selectCls + '">' + optionList(data.statuses, data.filter, "All statuses") + "</select>" +
       '<select id="record-group" class="' + selectCls + '">' + optionList(groups, data.group, "All " + plural(data.cols[1])) + "</select>" +
-      '<button type="button" data-action="record-import" class="' + ghostBtn + '">' + glyph(ICON_IMPORT) + ' Import</button>' +
-      '<button type="button" data-action="record-export" class="' + ghostBtn + '">' + glyph(ICON_EXPORT) + ' Export</button>' +
-      '<button type="button" data-action="record-add" class="' + primaryBtn + '">+ New ' + esc(noun) + "</button>";
+      '<button type="button" data-action="record-import" class="' + ghostBtn + ' w-full justify-center">' + glyph(ICON_IMPORT) + ' Import</button>' +
+      '<button type="button" data-action="record-export" class="' + ghostBtn + ' w-full justify-center">' + glyph(ICON_EXPORT) + ' Export</button>' +
+      '<button type="button" data-action="record-add" class="' + primaryBtn + ' w-full justify-center text-center whitespace-normal leading-snug">+ New ' + esc(noun) + "</button>";
     const body = data.rows.length
       ? '<div class="overflow-x-auto border-t border-slate-100"><table class="w-full text-left text-xs"><thead class="bg-slate-50/80 text-[11px] font-medium uppercase tracking-wider text-slate-400"><tr>' +
         '<th class="py-2.5 px-4 w-10"><input id="record-all" type="checkbox"' + (allOn ? " checked" : "") + ' class="rounded border-slate-300 text-slate-900 focus:ring-slate-400" aria-label="Select all on this page" /></th>' +
@@ -1335,10 +1335,10 @@
         '<th class="py-2.5 px-4 text-right font-medium">Actions</th></tr></thead><tbody id="record-body" class="divide-y divide-slate-100">' + recordRowsHtml(data) + "</tbody></table></div>" + pagerHtml(page)
       : emptyRecords(data.cols[0]);
     return '<article class="bg-white rounded-xl border border-slate-200 overflow-hidden">' +
-      '<div class="flex flex-wrap items-center justify-between gap-3 px-5 py-4">' +
+      '<div class="px-5 py-4">' +
       '<div class="min-w-0"><h2 class="text-sm font-semibold text-slate-900">' + esc(noun) + '</h2>' +
       '<p class="mt-0.5 text-xs text-slate-500">Browse, search and manage ' + esc(plural(noun.toLowerCase())) + '.</p></div>' +
-      '<div class="flex flex-wrap items-center justify-end gap-2">' + tools + "</div></div>" +
+      '<div class="mt-3 grid w-full grid-cols-2 items-center gap-3 md:grid-cols-3 xl:grid-cols-6">' + tools + "</div></div>" +
       '<div id="record-bulk" class="' + (n ? "flex" : "hidden") + ' items-center gap-2 px-5 py-2 bg-slate-50 border-t border-slate-100 text-xs">' +
       '<span id="record-selected" class="font-semibold text-slate-700">' + n + ' selected</span>' +
       '<button type="button" id="record-select-all" data-action="record-select-all" class="hidden text-xs font-semibold text-slate-900 underline">Select all</button>' +

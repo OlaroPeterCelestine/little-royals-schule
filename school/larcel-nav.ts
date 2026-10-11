@@ -4,10 +4,10 @@
   const GLOBALS = [{"id": "dashboard", "label": "Dashboard", "icon": "squares-2x2", "view": "dashboard"}, {"id": "inbox", "label": "My Inbox & Approvals", "icon": "inbox", "view": "inbox"}, {"id": "notifications", "label": "Notifications", "icon": "bell", "view": "notifications", "header": true}, {"id": "profile", "label": "My Profile", "icon": "user-circle", "view": "profile", "header": true}, {"id": "users", "label": "Users", "icon": "users", "view": "users", "header": true}, {"id": "audit", "label": "Audit logs", "icon": "shield-check", "view": "audit", "header": true}];
   const APPS = [
     { id: "school", name: "School Management", label: "School", icon: "building-office-2", modules: [
-      { id: "day", name: "School Day", label: "School day", keep: 4, pages: ["School Calendar", "Student 360", "School Time", "Teacher Classes", "Events Calendar", "School Policies", "School Profile", "School Site", "Academic Years & Terms", "Rollover Wizard"] },
+      { id: "day", name: "School Day", label: "School day", keep: 4, pages: ["School Calendar", "School Time", "Events Calendar", "School Policies", "School Profile", "School Site", "Academic Years & Terms", "Rollover Wizard"] },
       { id: "admissions", name: "Admissions & Enrollment", label: "Admissions", keep: 1, pages: ["Applications", "Admission Dashboard", "Enquiries", "Interviews & Assessments", "Offers & Waiting List", "Enrollment & Re-enrollment", "Transfers", "Document Verification", "Admission Decision", "Waitlist"] },
-      { id: "students", name: "Student Records", label: "Students", keep: 1, pages: ["All Students", "Guardians & Families", "Student Documents", "Student ID Cards", "Promotion & Graduation", "Withdrawals & Alumni", "Family and Sibling Links"] },
-      { id: "classes", name: "Classes & Structure", label: "Classes", keep: 1, pages: ["Classes & Streams", "Departments", "Classrooms", "Class Allocation", "Class Teachers", "Academic Groups", "Campus Registry", "Grades and Streams", "Classrooms and Capacities"] },
+      { id: "students", name: "Student Records", label: "Students", keep: 4, pages: ["All Students", "Student 360", "Guardians & Families", "Student Documents", "Student ID Cards", "Promotion & Graduation", "Withdrawals & Alumni", "Family and Sibling Links"] },
+      { id: "classes", name: "Classes & Structure", label: "Classes", keep: 4, pages: ["Classes & Streams", "Teacher Classes", "Departments", "Classrooms", "Class Allocation", "Academic Groups", "Campus Registry", "Grades and Streams", "Classrooms and Capacities"] },
       { id: "front", name: "Front Office", label: "Front office", keep: 4, pages: ["Reception Queue", "Late Arrival and Early Departure", "Parent Service Requests", "Incoming Correspondence"] }
     ]},
     { id: "academics", name: "Academics", label: "Academics", icon: "book-open", modules: [
@@ -63,11 +63,10 @@
     "School Management|School Day|School Calendar": "schoolcalendar",
     "School Management|School Day|Events Calendar": "eventscalendar",
     "School Management|School Day|School Time": "schooltime",
-    "School Management|School Day|Teacher Classes": "teachermap",
-    "School Management|School Day|Student 360": "student360",
+    "School Management|Student Records|Student 360": "student360",
     "School Management|School Day|School Policies": "policies",
     "School Management|Student Records|All Students": "students",
-    "School Management|Classes & Structure|Class Teachers": "teachermap",
+    "School Management|Classes & Structure|Teacher Classes": "teachermap",
     "Academics|Teaching & Lessons|Curriculum Library": "curriculum",
     "Academics|Teaching & Lessons|Schemes of Work": "studyplans",
     "Academics|Teaching & Lessons|Lesson Plans": "studyplans",
@@ -97,7 +96,10 @@
     "Administration & Security|Help & Support|Help & Support": "help"
   };
   const LEGACY = {
-    "school-students-student-profiles": "school-day-student-360",
+    "school-students-student-profiles": "school-students-student-360",
+    "school-day-student-360": "school-students-student-360",
+    "school-day-teacher-classes": "school-classes-teacher-classes",
+    "school-classes-class-teachers": "school-classes-teacher-classes",
     "school-overview-school-policies": "school-day-school-policies",
     "school-overview-school-calendar": "school-day-school-calendar",
     "academics-curriculum-curriculum-library": "academics-teaching-curriculum-library",
