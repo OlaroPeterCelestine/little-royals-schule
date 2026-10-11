@@ -1,12 +1,12 @@
-let started = false;
+let starting: Promise<void> | null = null;
 
-export function startSchool(): void {
-  if (started) return;
-  started = true;
-  void import("./little-angels-nav")
-    .then(() => import("./eduos"))
+export function startSchool(): Promise<void> {
+  if (starting) return starting;
+  starting = import("./nav")
+    .then(() => import("./desk"))
     .then(() => import("./session"))
     .then(({ startSession }) => {
       startSession();
     });
+  return starting;
 }

@@ -125,7 +125,7 @@
     teachers: [
       {
         id: "alvarez", name: "Ms. Alvarez", role: "Class teacher", subject: "Mathematics", grades: "Kindergarten, Grade 4",
-        email: "alvarez@eduos.school", phone: "0712 440 118", staffId: "TR-014", room: "Room 4",
+        email: "alvarez@littleroyals.school", phone: "0712 440 118", staffId: "TR-014", room: "Room 4",
         fullName: "Elena Alvarez", gender: "Female", dob: "14 Mar 1992", nationality: "Kenyan", idNo: "29844112",
         address: "House 12, Kilimani, Nairobi", joined: "8 Jan 2019", qualification: "B.Ed Mathematics, Kenyatta University",
         tsc: "TSC/552104", contract: "Permanent", department: "Mathematics",
@@ -146,7 +146,7 @@
       },
       {
         id: "shah", name: "Mr. Shah", role: "Class teacher", subject: "Science", grades: "Grade 2, Grade 5",
-        email: "shah@eduos.school", phone: "0722 118 904", staffId: "TR-021", room: "Lab",
+        email: "shah@littleroyals.school", phone: "0722 118 904", staffId: "TR-021", room: "Lab",
         fullName: "Amir Shah", gender: "Male", dob: "2 Jul 1988", nationality: "Kenyan", idNo: "27611084",
         address: "Flat 4, Parklands, Nairobi", joined: "6 May 2016", qualification: "B.Sc Science Education, University of Nairobi",
         tsc: "TSC/441880", contract: "Permanent", department: "Science",
@@ -165,7 +165,7 @@
       },
       {
         id: "nguyen", name: "Dr. Nguyen", role: "Head of humanities", subject: "Social Studies", grades: "Grade 6",
-        email: "nguyen@eduos.school", phone: "0733 220 441", staffId: "TR-008", room: "Room 6",
+        email: "nguyen@littleroyals.school", phone: "0733 220 441", staffId: "TR-008", room: "Room 6",
         fullName: "Linh Nguyen", gender: "Female", dob: "19 Nov 1984", nationality: "Kenyan", idNo: "25190877",
         address: "Lavington Green, Nairobi", joined: "11 Jan 2014", qualification: "PhD Education, Moi University",
         tsc: "TSC/330221", contract: "Permanent", department: "Humanities",
@@ -186,7 +186,7 @@
       },
       {
         id: "brooks", name: "Ms. Brooks", role: "Class teacher", subject: "English", grades: "Grade 3",
-        email: "brooks@eduos.school", phone: "0701 556 230", staffId: "TR-033", room: "Room 2",
+        email: "brooks@littleroyals.school", phone: "0701 556 230", staffId: "TR-033", room: "Room 2",
         fullName: "Hannah Brooks", gender: "Female", dob: "9 Apr 1995", nationality: "Kenyan", idNo: "33421009",
         address: "South B, Nairobi", joined: "4 Jan 2022", qualification: "B.Ed English, Mount Kenya University",
         tsc: "TSC/610442", contract: "Fixed term", department: "English",
@@ -207,7 +207,7 @@
       },
       {
         id: "okello", name: "Mr. Okello", role: "Class teacher", subject: "Kiswahili", grades: "Grade 1",
-        email: "okello@eduos.school", phone: "0740 882 117", staffId: "TR-041", room: "Room 1",
+        email: "okello@littleroyals.school", phone: "0740 882 117", staffId: "TR-041", room: "Room 1",
         fullName: "Peter Okello", gender: "Male", dob: "27 Aug 1990", nationality: "Kenyan", idNo: "28900341",
         address: "Kasarani, Nairobi", joined: "13 Jan 2020", qualification: "Diploma in Education, Kenya Technical",
         tsc: "TSC/498220", contract: "Permanent", department: "Languages",
@@ -228,7 +228,7 @@
       },
       {
         id: "wanjiru", name: "Ms. Wanjiru", role: "Class teacher", subject: "CRE & Art", grades: "Grade 5",
-        email: "wanjiru@eduos.school", phone: "0711 903 662", staffId: "TR-027", room: "Art room",
+        email: "wanjiru@littleroyals.school", phone: "0711 903 662", staffId: "TR-027", room: "Art room",
         fullName: "Grace Wanjiru", gender: "Female", dob: "3 Dec 1993", nationality: "Kenyan", idNo: "31277450",
         address: "Ruaka, Kiambu", joined: "7 Jan 2021", qualification: "B.Ed CRE, Catholic University of Eastern Africa",
         tsc: "TSC/577331", contract: "Permanent", department: "Creative arts",
@@ -273,9 +273,10 @@
     ],
     acked: {},
     files: [
-      { name: "Chen_Liam_transcript.pdf", size: "240 KB" },
-      { name: "Brooks_Ethan_report_Q1.pdf", size: "180 KB" },
+      { id: "f-chen", name: "Chen_Liam_transcript.pdf", size: "240 KB", state: "done" },
+      { id: "f-brooks", name: "Brooks_Ethan_report_Q1.pdf", size: "180 KB", state: "done" },
     ],
+    logoUpload: null,
     chat: [
       { role: "assistant", text: "I can look across enrollment, attendance, and grades at Little Royals. Ask about at-risk pupils, Grade 4 Mathematics, or this week's attendance." },
     ],
@@ -318,8 +319,6 @@
   };
 
   let menuAnchor = null;
-  let toastTimer = null;
-
   const primaryBtn = "inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-white bg-slate-900 hover:bg-slate-800 rounded-lg";
   const ghostBtn = "inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-700 bg-white border border-slate-200 hover:bg-slate-50 rounded-lg";
 
@@ -334,7 +333,7 @@
     if (!badge) return;
     const unread = state.notices.filter(function (item) { return !item.read; }).length;
     badge.textContent = String(unread);
-    badge.classList.toggle("hidden", unread === 0);
+    badge.classList.add("hidden");
     const button = document.getElementById("header-notifications");
     if (button) button.setAttribute("aria-label", unread ? "Notifications, " + unread + " new" : "Notifications");
   }
@@ -388,12 +387,70 @@
     state.audits.unshift({ id: "a" + Date.now(), who: state.me.name, action: action, target: target, when: "Just now" });
   }
 
-  function toast(message) {
-    const el = document.getElementById("toast");
-    el.textContent = message;
-    el.classList.remove("hidden");
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(function () { el.classList.add("hidden"); }, 2400);
+  let fileBusy = false;
+  let settleTimer = null;
+
+  function toastKind(text) {
+    if (/too large|is required|are required|no rows|no longer|at least one|is gone|Choose an|Could not|cannot|failed|Keep at least|under 700|Write a|Type a|Add a message|That file|That logo|That record|That version/i.test(text)) return "error";
+    if (/^No /.test(text)) return "error";
+    if (/Saved|Imported|Uploaded|updated|added|Restored|Exported|admitted|Synced|copied|refreshed|marked|Term set|Deleted|deleted|Acknowledged|downloaded|received|Reply sent|moved to|Holding|Brand saved|Settings saved|Logo updated/i.test(text)) return "success";
+    return "info";
+  }
+
+  function toast(message, type, id) {
+    const text = String(message || "");
+    const kind = type || toastKind(text);
+    let toastId = id;
+    if (!toastId && fileBusy && kind !== "loading") toastId = "desk-file";
+    if (kind === "loading" && toastId === "desk-file") fileBusy = true;
+    if (kind !== "loading" && toastId === "desk-file") fileBusy = false;
+    window.dispatchEvent(new CustomEvent("desk:toast", {
+      detail: { id: toastId, title: text, type: kind, timeout: kind === "loading" ? 0 : 3200 },
+    }));
+  }
+
+  function settle(loading, success) {
+    toast(loading, "loading", "desk-work");
+    clearTimeout(settleTimer);
+    settleTimer = setTimeout(function () {
+      toast(success, "success", "desk-work");
+    }, 480);
+  }
+
+  function fileSize(bytes) {
+    const size = Number(bytes) || 0;
+    if (size < 1024) return size + " B";
+    if (size < 1048576) return Math.max(1, Math.round(size / 1024)) + " KB";
+    return (size / 1048576).toFixed(1) + " MB";
+  }
+
+  function publishSurfaces() {
+    const empties = Array.prototype.map.call(document.querySelectorAll("[data-desk-empty]"), function (el) {
+      return {
+        id: el.id,
+        title: el.getAttribute("data-title") || "",
+        description: el.getAttribute("data-description") || "",
+        actions: el.getAttribute("data-actions") || "",
+      };
+    });
+    const detail = {
+      files: document.getElementById("transcript-files") ? state.files.map(function (file) {
+        return { id: file.id, name: file.name, size: file.size, state: file.state || "done", progress: file.progress, error: file.error };
+      }) : null,
+      logo: document.getElementById("logo-upload") && state.logoUpload ? {
+        id: state.logoUpload.id,
+        name: state.logoUpload.name,
+        size: state.logoUpload.size,
+        state: state.logoUpload.state,
+        progress: state.logoUpload.progress,
+        error: state.logoUpload.error,
+        preview: state.logoUpload.preview || "",
+      } : null,
+      chatPending: !!document.getElementById("chat-pending"),
+      empties: empties,
+    };
+    window.__deskSurfaces = detail;
+    window.dispatchEvent(new CustomEvent("desk:surfaces", { detail: detail }));
   }
 
   function csvCell(value) {
@@ -440,7 +497,13 @@
       const file = input.files && input.files[0];
       if (!file) return;
       const reader = new FileReader();
-      reader.onload = function () { done(parseCsv(String(reader.result || "")), file.name); };
+      reader.onload = function () {
+        const rows = parseCsv(String(reader.result || ""));
+        const name = file.name;
+        setTimeout(function () { done(rows, name); }, 450);
+      };
+      reader.onerror = function () { toast("Could not read " + file.name, "error", "desk-file"); };
+      toast("Reading " + file.name, "loading", "desk-file");
       reader.readAsText(file);
     });
     input.click();
@@ -489,7 +552,13 @@
     root.classList.remove("flex");
   }
 
+  function setModalWide(on) {
+    const panel = document.querySelector("#modal-root [role='dialog']");
+    if (panel) panel.classList.toggle("is-wide", !!on);
+  }
+
   function openModal(title, body, actions) {
+    setModalWide(false);
     document.getElementById("modal-title").textContent = title;
     document.getElementById("modal-body").innerHTML = body;
     const wrap = document.getElementById("modal-actions");
@@ -512,7 +581,7 @@
 
   function setCollapsed(collapsed) {
     document.documentElement.classList.toggle("sidebar-collapsed", collapsed);
-    try { localStorage.setItem("eduos-sidebar-collapsed", collapsed ? "1" : "0"); } catch (e) {}
+    try { localStorage.setItem("littleroyals-sidebar", collapsed ? "1" : "0"); } catch (e) {}
     state.settings.compact = collapsed;
     const toggle = document.getElementById("sidebar-toggle");
     toggle.setAttribute("aria-expanded", String(!collapsed));
@@ -522,14 +591,18 @@
   }
 
   function resolvedPage(id) {
-    const nav = window.LittleAngelsNav;
+    const nav = window.SchoolNav;
     if (nav && nav.alias[id] && nav.byId[nav.alias[id]]) return nav.alias[id];
     return id;
   }
 
   function syncNav(id) {
     document.querySelectorAll("#sidebar nav a:not([data-app]):not(.module-link):not(.nav-kicker)").forEach(function (link) {
-      const on = link.dataset.page === id;
+      const target = window.SchoolNav && window.SchoolNav.byId[link.dataset.page];
+      const current = window.SchoolNav && window.SchoolNav.byId[id];
+      const on = link.classList.contains("nav-page")
+        ? !!(target && current && target.appId === current.appId && target.moduleId === current.moduleId)
+        : link.dataset.page === id;
       link.classList.remove("nav-on", "bg-slate-100", "text-slate-900", "text-white", "font-semibold", "shadow-sm", "text-slate-600");
       if (on) link.classList.add("nav-on", "font-semibold", "shadow-sm");
       else link.classList.add("text-slate-600");
@@ -540,7 +613,7 @@
         icon.classList.toggle("text-slate-400", !on);
       }
     });
-    const meta = window.LittleAngelsNav && window.LittleAngelsNav.byId[id];
+    const meta = window.SchoolNav && window.SchoolNav.byId[id];
     const appId = meta && meta.appId ? meta.appId : "";
     document.querySelectorAll("#sidebar [data-app]").forEach(function (link) {
       const on = link.dataset.app === appId;
@@ -806,7 +879,7 @@
   function restoreVersion(id) {
     const entry = state.versions.filter(function (item) { return item.id === id; })[0];
     if (!entry || !entry.snap) { toast("That version is no longer available"); return; }
-    const meta = window.LittleAngelsNav && window.LittleAngelsNav.byId[entry.page];
+    const meta = window.SchoolNav && window.SchoolNav.byId[entry.page];
     const data = meta && ensureBook(meta);
     const row = data && data.rows.filter(function (item) { return item.id === entry.recordId; })[0];
     if (!row) { toast("That record is no longer on the page"); return; }
@@ -891,6 +964,34 @@
     return value;
   }
 
+  const UG_CITIES = ["Arua City", "Entebbe", "Fort Portal City", "Gulu City", "Hoima City", "Jinja City", "Kampala", "Lira City", "Masaka City", "Mbale City", "Mbarara City", "Soroti City"];
+  const UG_DISTRICTS = ["Abim", "Adjumani", "Agago", "Alebtong", "Amolatar", "Amudat", "Amuria", "Amuru", "Apac", "Arua", "Budaka", "Bududa", "Bugiri", "Bugweri", "Buhweju", "Buikwe", "Bukedea", "Bukomansimbi", "Bukwo", "Bulambuli", "Buliisa", "Bundibugyo", "Bunyangabu", "Bushenyi", "Busia", "Butaleja", "Butambala", "Butebo", "Buvuma", "Buyende", "Dokolo", "Gomba", "Gulu", "Hoima", "Ibanda", "Iganga", "Isingiro", "Jinja", "Kaabong", "Kabale", "Kabarole", "Kaberamaido", "Kagadi", "Kakumiro", "Kalangala", "Kaliro", "Kalungu", "Kamuli", "Kamwenge", "Kanungu", "Kapchorwa", "Kasese", "Katakwi", "Kayunga", "Kibaale", "Kiboga", "Kikuube", "Kiruhura", "Kiryandongo", "Kisoro", "Kitgum", "Koboko", "Kole", "Kotido", "Kumi", "Kween", "Kyankwanzi", "Kyegegwa", "Kyenjojo", "Kyotera", "Lamwo", "Lira", "Luuka", "Luwero", "Lwengo", "Lyantonde", "Manafwa", "Maracha", "Masaka", "Masindi", "Mayuge", "Mbale", "Mbarara", "Mitooma", "Mityana", "Moroto", "Moyo", "Mpigi", "Mubende", "Mukono", "Nakapiripirit", "Nakaseke", "Nakasongola", "Namayingo", "Namutumba", "Napak", "Nebbi", "Ngora", "Ntoroko", "Ntungamo", "Nwoya", "Omoro", "Otuke", "Oyam", "Pader", "Pallisa", "Rakai", "Rubirizi", "Rukungiri", "Sembabule", "Serere", "Sheema", "Sironko", "Soroti", "Tororo", "Wakiso", "Yumbe", "Zombo"];
+  const LC_PLACES = {
+    Kampala: ["Nakasero, Nakasero Parish, Central Division", "Kisenyi, Kisenyi Parish, Central Division", "Kololo, Kololo Parish, Central Division", "Naguru, Naguru Parish, Nakawa Division", "Ntinda, Ntinda Parish, Nakawa Division", "Bukoto, Bukoto Parish, Nakawa Division", "Bwaise, Bwaise Parish, Kawempe Division", "Makerere, Makerere Parish, Kawempe Division", "Kalerwe, Kalerwe Parish, Kawempe Division", "Kibuye, Kibuye Parish, Makindye Division", "Kansanga, Kansanga Parish, Makindye Division", "Ggaba, Ggaba Parish, Makindye Division", "Lubya, Lubya Parish, Rubaga Division", "Ndeeba, Ndeeba Parish, Rubaga Division", "Kabowa, Kabowa Parish, Rubaga Division"],
+    Wakiso: ["Nansana East, Nansana Parish, Nansana Municipality", "Nansana West, Nansana Parish, Nansana Municipality", "Nabweru, Nabweru Parish, Nansana Municipality", "Kira, Kira Parish, Kira Municipality", "Kyaliwajjala, Kyaliwajjala Parish, Kira Municipality", "Namugongo, Namugongo Parish, Kira Municipality", "Kasangati, Kasangati Parish, Kasangati Town Council", "Gayaza, Gayaza Parish, Kasangati Town Council", "Kajjansi, Kajjansi Parish, Kajjansi Town Council", "Kitende, Kitende Parish, Kajjansi Town Council", "Wakiso, Wakiso Parish, Wakiso Town Council", "Kakiri, Kakiri Parish, Kakiri Town Council", "Kyengera, Kyengera Parish, Kyengera Town Council", "Bulenga, Bulenga Parish, Wakiso Town Council"],
+    Entebbe: ["Kitoro, Kitoro Parish, Entebbe Municipality", "Lugonjo, Lugonjo Parish, Entebbe Municipality", "Nakiwogo, Nakiwogo Parish, Entebbe Municipality", "Katabi, Katabi Parish, Katabi Town Council", "Kawuku, Kawuku Parish, Katabi Town Council", "Abaita Ababiri, Abaita Parish, Katabi Town Council"],
+    Mukono: ["Mukono, Mukono Parish, Mukono Municipality", "Ntawo, Ntawo Parish, Mukono Municipality", "Seeta, Seeta Parish, Goma", "Namanve, Namanve Parish, Goma", "Nama, Nama Parish, Nama", "Nakisunga, Nakisunga Parish, Nakisunga", "Ntenjeru, Ntenjeru Parish, Ntenjeru", "Katosi, Katosi Parish, Ntenjeru"],
+    Jinja: ["Jinja Central, Jinja Central Parish, Jinja City", "Walukuba, Walukuba Parish, Jinja City", "Masese, Masese Parish, Jinja City", "Bugembe, Bugembe Parish, Jinja", "Budondo, Budondo Parish, Budondo", "Mafubira, Mafubira Parish, Mafubira"],
+    Mbale: ["Mbale Central, Mbale Central Parish, Mbale City", "Namakwekwe, Namakwekwe Parish, Mbale City", "Nakaloke, Nakaloke Parish, Nakaloke", "Bungokho, Bungokho Parish, Bungokho", "Busiu, Busiu Parish, Busiu"],
+    Mbarara: ["Mbarara Central, Mbarara Central Parish, Mbarara City", "Kakoba, Kakoba Parish, Mbarara City", "Nyamitanga, Nyamitanga Parish, Mbarara City", "Biharwe, Biharwe Parish, Biharwe", "Rubindi, Rubindi Parish, Rubindi"],
+    Gulu: ["Gulu Central, Gulu Central Parish, Gulu City", "Laroo, Laroo Parish, Gulu City", "Pece, Pece Parish, Gulu City", "Bungatira, Bungatira Parish, Bungatira", "Unyama, Unyama Parish, Unyama"],
+    Masaka: ["Masaka Central, Masaka Central Parish, Masaka City", "Nyendo, Nyendo Parish, Masaka City", "Kimanya, Kimanya Parish, Masaka City", "Bukoto, Bukoto Parish, Bukoto", "Mukungwe, Mukungwe Parish, Mukungwe"],
+    Lira: ["Lira Central, Lira Central Parish, Lira City", "Adyel, Adyel Parish, Lira City", "Ojwina, Ojwina Parish, Lira City", "Adekokwok, Adekokwok Parish, Adekokwok", "Ngetta, Ngetta Parish, Ngetta"],
+    "Fort Portal": ["Fort Portal Central, Fort Portal Parish, Fort Portal City", "Boma, Boma Parish, Fort Portal City", "Kijura, Kijura Parish, Fort Portal City", "Karambi, Karambi Parish, Karambi", "Buheesi, Buheesi Parish, Buheesi"],
+    Arua: ["Arua Central, Arua Central Parish, Arua City", "Oli, Oli Parish, Arua City", "Tanganyika, Tanganyika Parish, Arua City", "Ayivu, Ayivu Parish, Ayivu", "Vurra, Vurra Parish, Vurra"],
+    Hoima: ["Hoima Central, Hoima Central Parish, Hoima City", "Bujumbura, Bujumbura Parish, Hoima City", "Kigorobya, Kigorobya Parish, Kigorobya", "Buseruka, Buseruka Parish, Buseruka", "Kitoba, Kitoba Parish, Kitoba"],
+    Soroti: ["Soroti Central, Soroti Central Parish, Soroti City", "Pioneer, Pioneer Parish, Soroti City", "Arapai, Arapai Parish, Arapai", "Gweri, Gweri Parish, Gweri", "Kamuda, Kamuda Parish, Kamuda"],
+    Kabale: ["Kabale Central, Kabale Central Parish, Kabale Municipality", "Kyanamira, Kyanamira Parish, Kyanamira", "Rubaya, Rubaya Parish, Rubaya", "Kamuganguzi, Kamuganguzi Parish, Kamuganguzi", "Buhara, Buhara Parish, Buhara"],
+    Masindi: ["Masindi Central, Masindi Central Parish, Masindi Municipality", "Kigulya, Kigulya Parish, Masindi Municipality", "Budongo, Budongo Parish, Budongo", "Pakanyi, Pakanyi Parish, Pakanyi", "Bwijanga, Bwijanga Parish, Bwijanga"],
+    Iganga: ["Iganga Central, Iganga Central Parish, Iganga Municipality", "Nakigo, Nakigo Parish, Nakigo", "Nawandala, Nawandala Parish, Nawandala", "Bulamagi, Bulamagi Parish, Bulamagi"],
+    Tororo: ["Tororo Central, Tororo Central Parish, Tororo Municipality", "Eastern Division, Bison Parish, Tororo Municipality", "Mukuju, Mukuju Parish, Mukuju", "Osukuru, Osukuru Parish, Osukuru", "Nagongera, Nagongera Parish, Nagongera"],
+  };
+
+  function lcPlaces(district) {
+    const key = String(district || "").replace(/ City$/, "");
+    return LC_PLACES[key] || [];
+  }
+
   function makeRow(meta, kind, scheme, rand, index, used) {
     const pupil = takeUnique(rand, PUPILS, used.pupils);
     const teacher = TEACHERS[index % TEACHERS.length];
@@ -901,7 +1002,10 @@
     let a = subject + " " + meta.label.toLowerCase();
     let b = grade;
     let c = teacher;
-    if (kind === "pupils") { a = pupil; c = teacher; }
+    if (kind === "pupils") {
+      a = pupil;
+      c = meta.label === "Applications" ? UG_DISTRICTS.concat(UG_CITIES)[index % (UG_DISTRICTS.length + UG_CITIES.length)] : teacher;
+    }
     else if (kind === "people") { a = teacher; b = subject; c = ["Academics", "Pastoral", "Administration", "Early Years"][index % 4]; }
     else if (kind === "attendance") { a = pupil; c = ["Morning", "Period 2", "Period 4", "Clubs"][index % 4]; }
     else if (kind === "academic") { a = subject; c = teacher; }
@@ -951,7 +1055,7 @@
     "Academic Years & Terms": ["Year", "Terms", "Start", "End", "Lock state", "Promotion rules"],
     "Rollover Wizard": ["From year", "To year", "Promotion rule", "Exceptions", "Approver"],
     "Enquiries": ["Applicant", "Grade sought", "Guardian contact", "Source", "Follow-up"],
-    "Applications": ["Applicant", "Grade", "Guardians", "Previous school", "Documents", "Consent"],
+    "Applications": ["Child", "Class applied for", "Location"],
     "Document Verification": ["Applicant", "Document", "Check", "Reviewer", "Notes"],
     "Admission Decision": ["Applicant", "Decision", "Conditions", "Reviewer", "Date"],
     "Decisions": ["Applicant", "Decision", "Conditions", "Reviewer", "Date"],
@@ -1093,7 +1197,7 @@
   };
 
   function canonicalFields(meta) {
-    const page = meta || (window.LittleAngelsNav && window.LittleAngelsNav.byId[state.page]);
+    const page = meta || (window.SchoolNav && window.SchoolNav.byId[state.page]);
     return page && CANON[page.label] ? CANON[page.label] : null;
   }
 
@@ -1107,6 +1211,14 @@
       const cols = canon.slice(0, 3);
       while (cols.length < 3) cols.push("Detail");
       scheme = { cols: cols.concat(["Status"]), statuses: scheme.statuses.slice(), good: scheme.good, stats: scheme.stats };
+    }
+    if (meta.label === "Applications") {
+      scheme = {
+        cols: ["Child", "Class applied for", "Location", "Status"],
+        statuses: ["New", "Interviewing", "Documentation pending", "Enrolled"],
+        good: "Enrolled",
+        stats: ["Applications", "Enrolled", "Still open", "Classes"],
+      };
     }
     const rand = rng(hashText(meta.id));
     const count = 16 + Math.floor(rand() * 8);
@@ -1306,7 +1418,7 @@
   function recordRowsHtml(data) {
     const page = pagedRows(data);
     if (!page.all.length) {
-      return '<tr><td colspan="6" class="py-14 px-3 text-center text-sm text-slate-400">No records match that search or filter.</td></tr>';
+      return '<tr><td colspan="6" class="p-3"><div id="record-filter-empty" data-desk-empty data-title="No records match" data-description="Try a different search or filter."></div></td></tr>';
     }
     return page.rows.map(function (row) {
       const on = !!data.selected[row.id];
@@ -1383,10 +1495,11 @@
       all.checked = rows.rows.length > 0 && rows.rows.every(function (row) { return data.selected[row.id]; });
       all.indeterminate = !all.checked && rows.rows.some(function (row) { return data.selected[row.id]; });
     }
+    publishSurfaces();
   }
 
   function pageNoun() {
-    const meta = window.LittleAngelsNav && window.LittleAngelsNav.byId[state.page];
+    const meta = window.SchoolNav && window.SchoolNav.byId[state.page];
     return meta ? meta.label : "record";
   }
 
@@ -1396,12 +1509,7 @@
 
   function emptyRecords(noun) {
     const one = noun.toLowerCase();
-    return '<div class="px-6 py-16 text-center"><div class="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 text-slate-300">' + glyph(ICON_DOC) + '</div>' +
-      '<p class="text-sm font-semibold text-slate-900">No ' + esc(plural(one)) + ' yet</p>' +
-      '<p class="mt-1 text-xs text-slate-500">Create your first ' + esc(one) + ' to get started.</p>' +
-      '<div class="mt-4 flex items-center justify-center gap-2"><button type="button" data-action="record-add" class="' + primaryBtn + '">+ Create the first record</button>' +
-      '<button type="button" data-action="record-import" class="' + ghostBtn + '">' + glyph(ICON_IMPORT) + " Import</button>" +
-      '<button type="button" data-action="record-export" class="' + ghostBtn + '">' + glyph(ICON_EXPORT) + " Export</button></div></div>";
+    return '<div id="record-empty" data-desk-empty data-actions="records" data-title="No ' + esc(plural(one)) + ' yet" data-description="Create your first ' + esc(one) + ' to get started."></div>';
   }
 
   function tablePanel(data) {
@@ -1413,13 +1521,14 @@
     const allOn = page.rows.length > 0 && page.rows.every(function (row) { return data.selected[row.id]; });
     const noun = pageNoun();
     const selectCls = "w-full min-w-0 text-xs rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-slate-700";
+    const addLabel = noun === "Applications" ? "application" : noun;
     const tools = '<label class="relative min-w-0"><span class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">' + glyph(ICON_SEARCH) + '</span>' +
       '<input id="record-search" value="' + esc(data.query) + '" class="w-full rounded-full border border-slate-200 bg-white py-1.5 pl-8 pr-3 text-xs text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-1 focus:ring-slate-300" placeholder="Search ' + esc(noun.toLowerCase()) + '" /></label>' +
       '<select id="record-status" class="' + selectCls + '">' + optionList(data.statuses, data.filter, "All statuses") + "</select>" +
-      '<select id="record-group" class="' + selectCls + '">' + optionList(groups, data.group, "All " + plural(data.cols[1])) + "</select>" +
+      '<select id="record-group" class="' + selectCls + '">' + optionList(groups, data.group, noun === "Applications" ? "All classes" : "All " + plural(data.cols[1])) + "</select>" +
       '<button type="button" data-action="record-import" class="' + ghostBtn + ' w-full justify-center">' + glyph(ICON_IMPORT) + ' Import</button>' +
       '<button type="button" data-action="record-export" class="' + ghostBtn + ' w-full justify-center">' + glyph(ICON_EXPORT) + ' Export</button>' +
-      '<button type="button" data-action="record-add" class="' + primaryBtn + ' w-full justify-center text-center whitespace-normal leading-snug">+ New ' + esc(noun) + "</button>";
+      '<button type="button" data-action="record-add" class="' + primaryBtn + ' w-full justify-center text-center whitespace-normal leading-snug">+ New ' + esc(addLabel) + "</button>";
     const body = data.rows.length
       ? '<div class="overflow-x-auto border-t border-slate-100"><table class="w-full text-left text-xs"><thead class="bg-slate-50/80 text-[11px] font-medium uppercase tracking-wider text-slate-400"><tr>' +
         '<th class="py-2.5 px-4 w-10"><input id="record-all" type="checkbox"' + (allOn ? " checked" : "") + ' class="rounded border-slate-300 text-slate-900 focus:ring-slate-400" aria-label="Select all on this page" /></th>' +
@@ -1560,7 +1669,7 @@
   }
 
   function admitFromRecord(next) {
-    const meta = window.LittleAngelsNav && window.LittleAngelsNav.byId[state.page];
+    const meta = window.SchoolNav && window.SchoolNav.byId[state.page];
     if (!meta) return null;
     const extra = next.extra || {};
     if (meta.label === "Enrollment") {
@@ -1705,7 +1814,7 @@
   }
 
   function recordDetailPage(meta, data, row) {
-    const sections = !meta.detail && window.LittleAngelsNav && window.LittleAngelsNav.detailsOf ? window.LittleAngelsNav.detailsOf(meta.hub || meta.id) : [];
+    const sections = !meta.detail && window.SchoolNav && window.SchoolNav.detailsOf ? window.SchoolNav.detailsOf(meta.hub || meta.id) : [];
     const back = '<nav aria-label="Back" class="flex flex-wrap items-center justify-between gap-3">' +
       '<button type="button" data-action="record-back" class="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-700 hover:text-slate-900">' +
       '<svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5"/></svg>Back to ' + esc(meta.label) + "</button>" +
@@ -1742,6 +1851,8 @@
       : "";
     const lede = meta.label === "Enrollment"
       ? "Enter the admission. Saving adds the child to Students with these details."
+      : meta.label === "Applications"
+      ? "Take the child’s application, then the father, mother, and guardian details you have."
       : meta.label === "Decisions"
       ? "When the decision is an offer or admission, they join Students with a full record."
       : data.rows.length + " records for " + esc(term) + ".";
@@ -1750,7 +1861,7 @@
   }
 
   function pageStats() {
-    const meta = window.LittleAngelsNav && window.LittleAngelsNav.byId[state.page];
+    const meta = window.SchoolNav && window.SchoolNav.byId[state.page];
     if (!meta) return "";
     const data = ensureBook(meta);
     return statGrid(data) + tablePanel(data);
@@ -1758,6 +1869,250 @@
 
   function findRow(data, id) {
     return data.rows.filter(function (row) { return row.id === id; })[0];
+  }
+
+  const APP_INPUT = "mt-1 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-1 focus:ring-slate-400 disabled:cursor-not-allowed disabled:bg-slate-50 disabled:text-slate-400";
+  const APP_SEX = ["Female", "Male"];
+  const APP_RELIGION = ["Anglican", "Catholic", "Muslim", "Pentecostal", "Seventh-day Adventist", "Orthodox", "Baptist", "Traditional", "Other"];
+
+  function isApplicationPage() {
+    const meta = window.SchoolNav && window.SchoolNav.byId[state.page];
+    return !!(meta && meta.label === "Applications");
+  }
+
+  function appField(label, control, hint) {
+    return '<label class="block"><span class="text-[11px] font-semibold text-slate-700">' + esc(label) + "</span>" + control +
+      (hint ? '<span class="mt-1 block text-[11px] font-normal text-slate-400">' + hint + "</span>" : "") + "</label>";
+  }
+
+  function appText(id, value, placeholder, type) {
+    return '<input id="' + id + '" type="' + (type || "text") + '" value="' + esc(value || "") + '" placeholder="' + esc(placeholder || "") + '" autocomplete="off" class="' + APP_INPUT + '" />';
+  }
+
+  function appChoice(id, options, current, placeholder) {
+    return '<select id="' + id + '" class="' + APP_INPUT + '"><option value="">' + esc(placeholder) + "</option>" +
+      options.map(function (item) {
+        return '<option value="' + esc(item) + '"' + (item === current ? " selected" : "") + ">" + esc(item) + "</option>";
+      }).join("") + "</select>";
+  }
+
+  function appDistrictSelect(current) {
+    function group(label, values) {
+      return '<optgroup label="' + esc(label) + '">' + values.map(function (item) {
+        return '<option value="' + esc(item) + '"' + (item === current ? " selected" : "") + ">" + esc(item) + "</option>";
+      }).join("") + "</optgroup>";
+    }
+    return '<select id="app-district" class="' + APP_INPUT + '"><option value="">Select a district or city</option>' +
+      group("City", UG_CITIES) + group("District", UG_DISTRICTS) + "</select>";
+  }
+
+  function applicationDraft(row) {
+    const extra = (row && row.extra) || {};
+    const parts = String((row && row.a) || "").trim().split(/\s+/).filter(Boolean);
+    const places = UG_CITIES.concat(UG_DISTRICTS);
+    const grades = activeGrades().length ? activeGrades() : GRADES;
+    return {
+      first: extra["First name"] || (row ? parts[0] || "" : ""),
+      last: extra["Last name"] || (row ? parts.slice(1).join(" ") : ""),
+      dob: extra["Date of birth"] || "",
+      sex: extra["Sex"] || "",
+      religion: extra["Religion"] || "",
+      address: extra["Home address"] || "",
+      district: extra["Location"] || (row && places.indexOf(row.c) !== -1 ? row.c : ""),
+      lc: extra["LC address"] || "",
+      illness: extra["Any illness of the child"] || "",
+      cls: extra["Class applied for"] || (row && grades.indexOf(row.b) !== -1 ? row.b : ""),
+      father: extra["Name of father"] || "",
+      fatherPhone: extra["Father telephone"] || "",
+      fatherNin: extra["Father NIN"] || "",
+      mother: extra["Name of mother"] || "",
+      motherPhone: extra["Mother telephone"] || "",
+      motherNin: extra["Mother NIN"] || "",
+      guardian: extra["Name of guardian"] || "",
+      guardianPhone: extra["Guardian telephone"] || "",
+      guardianNin: extra["Guardian NIN"] || "",
+      status: row ? row.status : "",
+    };
+  }
+
+  function applicationPerson(title, nameId, nameLabel, nameValue, phoneId, phoneValue, ninId, ninValue) {
+    return '<div class="space-y-3 rounded-lg border border-slate-200 p-3">' +
+      '<p class="text-xs font-semibold text-slate-900">' + esc(title) + "</p>" +
+      appField(nameLabel, appText(nameId, nameValue, "")) +
+      '<div class="grid grid-cols-1 gap-3 sm:grid-cols-2">' +
+      appField("Telephone number", appText(phoneId, phoneValue, "+256", "tel")) +
+      (ninId ? appField("NIN", appText(ninId, ninValue, "")) : "") +
+      "</div></div>";
+  }
+
+  function applicationFormHtml(data, row) {
+    const draft = applicationDraft(row);
+    const status = draft.status || data.statuses[0];
+    const grades = activeGrades().length ? activeGrades() : GRADES;
+    const lcReady = !!draft.district;
+    const child = '<section class="space-y-3">' +
+      '<div><h4 class="text-sm font-semibold text-slate-900">Child details</h4></div>' +
+      '<div class="grid grid-cols-1 gap-3 sm:grid-cols-2">' +
+      appField("First name", appText("app-first", draft.first, "")) +
+      appField("Last name", appText("app-last", draft.last, "")) +
+      appField("Date of birth", appText("app-dob", draft.dob, "dd/mm/yyyy")) +
+      appField("Sex", appChoice("app-sex", APP_SEX, draft.sex, "Select one")) +
+      appField("Religion", appChoice("app-religion", APP_RELIGION, draft.religion, "Select one")) +
+      "</div>" +
+      appField("Home address", appText("app-address", draft.address, "")) +
+      appField("Location (district / city)", appDistrictSelect(draft.district)) +
+      '<label class="block"><span class="text-[11px] font-semibold text-slate-700">LC address</span>' +
+      '<div class="relative"><input id="app-lc" value="' + esc(draft.lc) + '" placeholder="' + (lcReady ? "Search village, parish, or sub-county" : "Select a district first") + '"' + (lcReady ? "" : " disabled") + ' autocomplete="off" class="' + APP_INPUT + '" />' +
+      '<ul id="app-lc-list" class="absolute z-10 mt-1 hidden max-h-40 w-full overflow-auto rounded-lg border border-slate-200 bg-white py-1 shadow-tooltip"></ul></div>' +
+      '<span id="app-lc-hint" class="mt-1 block text-[11px] font-normal text-slate-400">' + (lcReady ? "Search village, parish, or sub-county." : "Select a district or city first.") + "</span></label>" +
+      appField("Any illness of the child", '<textarea id="app-illness" rows="2" placeholder="Write None if the child has no illness." class="' + APP_INPUT + '">' + esc(draft.illness) + "</textarea>", "Write None if the child has no illness.") +
+      appField("Class applied for", appChoice("app-class", grades, draft.cls, "Select one")) +
+      "</section>";
+    const parents = '<section class="space-y-3 border-t border-slate-100 pt-4">' +
+      '<div><h4 class="text-sm font-semibold text-slate-900">Parents or guardians details</h4>' +
+      '<p class="mt-0.5 text-[11px] text-slate-500">Enter the father, mother, and guardian details you have. You can leave any field blank.</p></div>' +
+      applicationPerson("Father", "app-father", "Name of father", draft.father, "app-father-phone", draft.fatherPhone, "app-father-nin", draft.fatherNin) +
+      applicationPerson("Mother", "app-mother", "Name of mother", draft.mother, "app-mother-phone", draft.motherPhone, "app-mother-nin", draft.motherNin) +
+      applicationPerson("Guardian", "app-guardian", "Name of guardian", draft.guardian, "app-guardian-phone", draft.guardianPhone, "app-guardian-nin", draft.guardianNin) +
+      "</section>";
+    const standing = '<label class="block border-t border-slate-100 pt-4"><span class="text-[11px] font-semibold text-slate-700">Application status</span><select id="record-new-status" class="' + APP_INPUT + '">' +
+      data.statuses.map(function (item) { return '<option' + (item === status ? " selected" : "") + ">" + esc(item) + "</option>"; }).join("") +
+      "</select></label>";
+    return '<form id="application-form" class="space-y-4">' + child + parents + standing + "</form>";
+  }
+
+  function bindApplicationForm() {
+    const district = document.getElementById("app-district");
+    const lc = document.getElementById("app-lc");
+    const list = document.getElementById("app-lc-list");
+    const hint = document.getElementById("app-lc-hint");
+    if (!district || !lc || !list || !hint) return;
+
+    function syncLc(clear) {
+      const name = district.value;
+      const places = lcPlaces(name);
+      list.classList.add("hidden");
+      list.innerHTML = "";
+      if (!name) {
+        lc.disabled = true;
+        if (clear) lc.value = "";
+        lc.placeholder = "Select a district first";
+        hint.textContent = "Select a district or city first.";
+        return;
+      }
+      lc.disabled = false;
+      if (clear) lc.value = "";
+      lc.placeholder = places.length ? "Search village, parish, or sub-county" : "Type the village, parish, or sub-county";
+      hint.textContent = places.length
+        ? "Search village, parish, or sub-county in " + name + "."
+        : "Type the village, parish, or sub-county for " + name + ".";
+    }
+
+    function showMatches() {
+      const places = lcPlaces(district.value);
+      const query = lc.value.trim().toLowerCase();
+      if (!places.length || !query) {
+        list.classList.add("hidden");
+        list.innerHTML = "";
+        return;
+      }
+      const hits = places.filter(function (place) { return place.toLowerCase().indexOf(query) !== -1; }).slice(0, 8);
+      list.innerHTML = hits.length
+        ? hits.map(function (place) {
+          return '<li><button type="button" data-lc="' + esc(place) + '" class="block w-full px-3 py-2 text-left text-slate-700 hover:bg-slate-50">' + esc(place) + "</button></li>";
+        }).join("")
+        : '<li class="px-3 py-2 text-slate-400">No listed match. The address you type will be saved.</li>';
+      list.classList.remove("hidden");
+    }
+
+    district.addEventListener("change", function () { syncLc(true); });
+    lc.addEventListener("input", showMatches);
+    lc.addEventListener("focus", showMatches);
+    list.addEventListener("click", function (event) {
+      const button = event.target.closest("[data-lc]");
+      if (!button) return;
+      lc.value = button.getAttribute("data-lc") || "";
+      list.classList.add("hidden");
+    });
+    syncLc(false);
+  }
+
+  function readApplicationValue(id) {
+    const input = document.getElementById(id);
+    return input ? input.value.trim() : "";
+  }
+
+  function validDob(value) {
+    const match = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(value);
+    if (!match) return false;
+    const day = Number(match[1]);
+    const month = Number(match[2]);
+    const year = Number(match[3]);
+    const date = new Date(year, month - 1, day);
+    const latest = new Date().getFullYear();
+    return year >= 1990 && year <= latest && date.getFullYear() === year && date.getMonth() === month - 1 && date.getDate() === day;
+  }
+
+  function readApplicationFields(data) {
+    const first = readApplicationValue("app-first");
+    const last = readApplicationValue("app-last");
+    const dob = readApplicationValue("app-dob");
+    const sex = readApplicationValue("app-sex");
+    const religion = readApplicationValue("app-religion");
+    const address = readApplicationValue("app-address");
+    const district = readApplicationValue("app-district");
+    const lc = readApplicationValue("app-lc");
+    const illness = readApplicationValue("app-illness");
+    const cls = readApplicationValue("app-class");
+    const statusEl = document.getElementById("record-new-status");
+    if (!first || !last) return { error: "Enter the child’s first and last name." };
+    if (!validDob(dob)) return { error: "Enter the date of birth as dd/mm/yyyy." };
+    if (!sex) return { error: "Select the child’s sex." };
+    if (!religion) return { error: "Select the child’s religion." };
+    if (!cls) return { error: "Select the class applied for." };
+    if (!address) return { error: "Enter the home address." };
+    if (!district) return { error: "Select a district or city first." };
+    if (!lc) return { error: "Search for the village, parish, or sub-county." };
+    if (!illness) return { error: "Write None if the child has no illness." };
+    const phones = [
+      ["father’s", readApplicationValue("app-father-phone")],
+      ["mother’s", readApplicationValue("app-mother-phone")],
+      ["guardian’s", readApplicationValue("app-guardian-phone")],
+    ];
+    for (let i = 0; i < phones.length; i++) {
+      if (phones[i][1] && !/^[+0-9][0-9\s-]{8,}$/.test(phones[i][1])) {
+        return { error: "Enter a full " + phones[i][0] + " telephone number, or leave it blank." };
+      }
+    }
+    const extra = {
+      "First name": first,
+      "Last name": last,
+      "Date of birth": dob,
+      "Sex": sex,
+      "Religion": religion,
+      "Home address": address,
+      "Location": district,
+      "LC address": lc,
+      "Any illness of the child": illness,
+      "Class applied for": cls,
+    };
+    function keep(key, value) { if (value) extra[key] = value; }
+    keep("Name of father", readApplicationValue("app-father"));
+    keep("Father telephone", readApplicationValue("app-father-phone"));
+    keep("Father NIN", readApplicationValue("app-father-nin"));
+    keep("Name of mother", readApplicationValue("app-mother"));
+    keep("Mother telephone", readApplicationValue("app-mother-phone"));
+    keep("Mother NIN", readApplicationValue("app-mother-nin"));
+    keep("Name of guardian", readApplicationValue("app-guardian"));
+    keep("Guardian telephone", readApplicationValue("app-guardian-phone"));
+    keep("Guardian NIN", readApplicationValue("app-guardian-nin"));
+    return {
+      a: (first + " " + last).replace(/\s+/g, " ").trim(),
+      b: cls,
+      c: district,
+      status: statusEl ? statusEl.value : data.statuses[0],
+      extra: extra,
+    };
   }
 
   function fieldInput(label, id, value) {
@@ -1881,6 +2236,7 @@
   }
 
   function readRecordFields(data) {
+    if (document.getElementById("application-form")) return readApplicationFields(data);
     const fields = canonicalFields();
     const status = document.getElementById("record-new-status").value;
     if (!fields) {
@@ -1929,10 +2285,19 @@
   }
 
   function openRecordForm(data, row) {
-    openModal(row ? "Edit " + row.a : "Add record", recordFormHtml(data, row), [
-      { label: row ? "Save changes" : "Save", primary: true, close: false, run: function () { saveRecord(data, row); } },
-      { label: "Cancel", run: function () {} },
-    ]);
+    const application = isApplicationPage();
+    openModal(
+      application ? (row ? "Edit application" : "Application form") : (row ? "Edit " + row.a : "Add record"),
+      application ? applicationFormHtml(data, row) : recordFormHtml(data, row),
+      [
+        { label: row ? "Save changes" : (application ? "Save application" : "Save"), primary: true, close: false, run: function () { saveRecord(data, row); } },
+        { label: "Cancel", run: function () {} },
+      ]
+    );
+    if (application) {
+      setModalWide(true);
+      bindApplicationForm();
+    }
   }
 
   function openRecordDetail(data, row) {
@@ -1955,7 +2320,7 @@
   }
 
   function currentView() {
-    const meta = window.LittleAngelsNav && window.LittleAngelsNav.byId[state.page];
+    const meta = window.SchoolNav && window.SchoolNav.byId[state.page];
     return meta && meta.view ? meta.view : state.page;
   }
 
@@ -2028,9 +2393,10 @@
     const body = table.tBodies[0];
     const cols = table.tHead && table.tHead.rows[0] ? table.tHead.rows[0].cells.length : 1;
     const emptyText = (grid.query || grid.filter) ? "No rows match that search or filter." : "No rows on this page.";
+    const emptyNote = (grid.query || grid.filter) ? "Try a different search or filter." : "Add a row when you have one.";
     body.innerHTML = slice.length
       ? slice.map(function (item) { return item.html; }).join("")
-      : '<tr><td colspan="' + cols + '" class="py-10 px-3 text-center text-sm text-slate-400">' + emptyText + "</td></tr>";
+      : '<tr><td colspan="' + cols + '" class="p-3"><div id="grid-empty-' + esc(key) + '" data-desk-empty data-title="' + esc(emptyText) + '" data-description="' + esc(emptyNote) + '"></div></td></tr>';
     body.querySelectorAll("[data-grid-box]").forEach(function (box) {
       box.checked = !!grid.selected[box.dataset.gridId];
       const row = box.closest("tr");
@@ -2081,6 +2447,7 @@
     }
     fillGridSelect(gridBy("data-grid-filter", key), grid, "filter", function (item) { return item.filter; });
     fillGridSelect(gridBy("data-grid-group", key), grid, "group", function (item) { return item.group; });
+    publishSurfaces();
   }
 
   function fillGridSelect(select, grid, field, read) {
@@ -2314,6 +2681,7 @@
       paintGrid(table, key);
     });
     stage.querySelectorAll("article").forEach(function (article) {
+      if (article.querySelector("#transcript-files, #logo-upload, [data-desk-empty]")) return;
       if (!article.textContent.trim() && !article.querySelector("img, svg, table, input, canvas")) article.remove();
     });
   }
@@ -2399,7 +2767,7 @@
         if (!cells[0]) { toast("The first field is required"); return; }
         closeModal();
         saveGridCells(key, id, cells);
-        toast("Saved");
+        settle("Saving", "Saved");
       } },
       { label: "Cancel", run: function () {} },
     ]);
@@ -2542,7 +2910,7 @@
   }
 
   function show(id, fromHistory) {
-    const nav = window.LittleAngelsNav;
+    const nav = window.SchoolNav;
     const resolved = resolvedPage(id);
     const meta = nav && nav.byId[resolved];
     const view = meta && meta.view ? meta.view : (meta ? "" : id);
@@ -2576,10 +2944,11 @@
     if (!fromHistory && location.hash !== "#" + resolved) history.pushState({ page: resolved }, "", "#" + resolved);
     closeMenu();
     hideSearch();
+    publishSurfaces();
   }
 
   function flowStrip() {
-    const nav = window.LittleAngelsNav;
+    const nav = window.SchoolNav;
     const meta = nav && nav.byId[state.page];
     if (!meta || !meta.moduleId) return "";
     const steps = nav.pages.filter(function (item) {
@@ -2733,7 +3102,7 @@
 
   function clockSpan() {
     if (state.clockSpan) return state.clockSpan;
-    const meta = window.LittleAngelsNav && window.LittleAngelsNav.byId[state.page];
+    const meta = window.SchoolNav && window.SchoolNav.byId[state.page];
     const view = meta && meta.view;
     if (view === "teacherprofile" || view === "timeweek") return "week";
     return "today";
@@ -3485,6 +3854,9 @@
     copilot: function () {
       const thread = state.chat.map(function (message) {
         const mine = message.role === "user";
+        if (message.pending) {
+          return '<div class="flex justify-start"><div id="chat-pending" class="flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs text-slate-500"></div></div>';
+        }
         return '<div class="flex ' + (mine ? "justify-end" : "justify-start") + '"><div class="max-w-xl px-3 py-2 rounded-xl text-xs leading-relaxed ' +
           (mine ? "bg-sky-500 text-white" : "bg-slate-50 border border-slate-200 text-slate-700") + '">' + esc(message.text) + "</div></div>";
       }).join("");
@@ -3913,11 +4285,8 @@
         '<button type="button" data-action="download-system-report" class="' + primaryBtn + '">Download report</button>');
     },
     transcripts: function () {
-      const rows = state.files.map(function (file) {
-        return "<li class=\"py-3 flex justify-between border-b border-slate-100 last:border-0\"><span class=\"font-medium text-slate-900\">" + esc(file.name) + "</span><span class=\"text-slate-400\">" + esc(file.size) + "</span></li>";
-      }).join("");
       return shell("Transcripts & Documents", "Upload a file to attach it to the campus document list.",
-        card('<ul class="text-xs">' + rows + "</ul>"),
+        card('<h2 class="mb-3 text-sm font-semibold text-slate-900">Uploaded files</h2><div id="transcript-files"></div>'),
         '<label class="' + primaryBtn + ' cursor-pointer">Upload<input id="transcript-upload" class="hidden" type="file" /></label>');
     },
     policies: function () {
@@ -4045,6 +4414,7 @@
           fieldInput("School name", "brand-name", brand.name) +
           fieldInput("Tagline", "brand-tagline", brand.tagline) +
           '<div class="flex flex-wrap gap-2"><button type="button" data-action="brand-mark" data-color="#1e4b9b" class="' + ghostBtn + '">Navy mark</button><button type="button" data-action="brand-mark" data-color="#047857" class="' + ghostBtn + '">Green mark</button><label class="' + ghostBtn + ' cursor-pointer">Upload image<input id="logo-file" class="hidden" type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml" /></label><button type="button" data-action="brand-reset" class="' + ghostBtn + '">Original crest</button></div>' +
+          '<div id="logo-upload"></div>' +
           '<button type="submit" class="' + primaryBtn + '">Save brand</button></form>') +
         card('<h2 class="text-sm font-semibold text-slate-900">Logo versions</h2>' + (history ? '<ul class="mt-2 text-xs">' + history + "</ul>" : '<p class="mt-2 text-xs text-slate-400">No earlier logos yet. The next change is kept here.</p>')) +
         "</div>",
@@ -4092,7 +4462,7 @@
         '<button type="button" data-action="goto" data-page="admin-school-settings-branding" class="' + ghostBtn + '">Change logo</button>');
     },
     benchmarks: function () {
-      const meta = window.LittleAngelsNav && window.LittleAngelsNav.byId[state.page];
+      const meta = window.SchoolNav && window.SchoolNav.byId[state.page];
       const label = meta ? meta.label : "School Benchmarks";
       const rows = visibleBenchmarks();
       const met = rows.filter(function (item) { return meetsBench(item.target, item.result); }).length;
@@ -4319,7 +4689,7 @@
       hideSearch();
       return;
     }
-    const catalog = window.LittleAngelsNav ? window.LittleAngelsNav.pages : [];
+    const catalog = window.SchoolNav ? window.SchoolNav.pages : [];
     const pages = catalog.filter(function (item) {
       if (item.hidden) return false;
       return (item.label + " " + item.app + " " + item.module).toLowerCase().indexOf(needle) !== -1;
@@ -4342,15 +4712,21 @@
 
   function ask(prompt) {
     state.chat.push({ role: "user", text: prompt });
-    state.chat.push({ role: "assistant", text: answerFor(prompt) });
+    state.chat.push({ role: "assistant", text: "", pending: true });
     show("copilot");
+    const pending = state.chat[state.chat.length - 1];
     const log = document.getElementById("chat-log");
-    if (log) log.parentElement.scrollTop = log.parentElement.scrollHeight;
+    if (log && log.parentElement) log.parentElement.scrollTop = log.parentElement.scrollHeight;
+    setTimeout(function () {
+      pending.pending = false;
+      pending.text = answerFor(prompt);
+      if (document.getElementById("chat-log")) show("copilot");
+    }, 700);
   }
 
   function bindNavigation() {
-    if (window.LittleAngelsNav) {
-      window.LittleAngelsNav.mount(document.getElementById("app-nav"), {
+    if (window.SchoolNav) {
+      window.SchoolNav.mount(document.getElementById("app-nav"), {
         onPage: show,
         onSearch: function () {
           setTimeout(function () { searchInput.focus(); searchInput.select(); }, 30);
@@ -4710,7 +5086,7 @@
         thread.messages.push({ who: state.me.name, mine: true, text: text, time: "Just now" });
         thread.unread = false;
         show("inbox");
-        toast("Reply sent to " + thread.dept);
+        settle("Sending reply", "Reply sent to " + thread.dept);
       }
     }
     if (action === "open-request") {
@@ -5364,7 +5740,7 @@
         thread.messages.push({ who: state.me.name, mine: true, text: text, time: "Just now" });
         thread.unread = false;
         show("inbox");
-        toast("Reply sent to " + thread.dept);
+        settle("Sending reply", "Reply sent to " + thread.dept);
       }
     }
     if (event.target.id === "chat-form") {
@@ -5378,7 +5754,7 @@
       if (!message) { toast("Add a message before submitting"); return; }
       const topic = document.getElementById("feedback-topic").value;
       event.target.reset();
-      toast("Feedback received · " + topic);
+      settle("Sending feedback", "Feedback received · " + topic);
     }
     if (event.target.id === "settings-form") {
       const nursery = document.getElementById("setting-nursery").checked;
@@ -5396,7 +5772,7 @@
       const banner = document.querySelector('[data-purpose="ai-insight-banner"]');
       if (banner) banner.classList.toggle("hidden", !state.settings.alerts);
       saveSettings();
-      toast("Settings saved · " + schoolLevelLabel());
+      settle("Saving settings", "Settings saved · " + schoolLevelLabel());
     }
     if (event.target.id === "brand-form") {
       const name = document.getElementById("brand-name").value.trim();
@@ -5404,7 +5780,7 @@
       if (!name) { toast("School name is required"); return; }
       commitBrand({ name: name, tagline: tagline || state.brand.tagline, logo: state.brand.logo }, "Saved brand");
       show(state.page);
-      toast("Brand saved");
+      settle("Saving brand", "Brand saved");
     }
   });
 
@@ -5494,22 +5870,71 @@
       paintGrid(event.target.closest("table"), key);
     }
     if (event.target.id === "logo-file" && event.target.files[0]) {
-      const file = event.target.files[0];
-      if (!/^image\//.test(file.type)) { toast("Choose an image"); return; }
-      if (file.size > 700000) { toast("Use an image under 700 KB"); return; }
-      const reader = new FileReader();
-      reader.onload = function () {
-        commitBrand({ name: state.brand.name, tagline: state.brand.tagline, logo: String(reader.result) }, "Uploaded logo");
+      const input = event.target;
+      const file = input.files[0];
+      input.value = "";
+      function failLogo(message) {
+        state.logoUpload = { id: "logo-" + Date.now(), name: file.name, size: fileSize(file.size), state: "error", error: message, progress: 0 };
         show(state.page);
-        toast("Logo updated");
+        toast(message, "error", "desk-file");
+      }
+      if (!/^image\//.test(file.type)) { failLogo("Choose an image"); return; }
+      if (file.size > 700000) { failLogo("Use an image under 700 KB"); return; }
+      const started = Date.now();
+      state.logoUpload = { id: "logo-" + Date.now(), name: file.name, size: fileSize(file.size), state: "uploading", progress: 18, error: "", preview: "" };
+      show(state.page);
+      toast("Uploading " + file.name, "loading", "desk-file");
+      const reader = new FileReader();
+      reader.onprogress = function (ev) {
+        if (!ev.lengthComputable || !state.logoUpload || state.logoUpload.state === "done" || state.logoUpload.state === "error") return;
+        state.logoUpload.progress = Math.max(18, Math.round((ev.loaded / ev.total) * 100));
+        state.logoUpload.state = state.logoUpload.progress < 100 ? "uploading" : "processing";
+        publishSurfaces();
+      };
+      reader.onerror = function () { failLogo("Could not read " + file.name); };
+      reader.onload = function () {
+        const preview = String(reader.result || "");
+        const uploadId = state.logoUpload ? state.logoUpload.id : "logo";
+        setTimeout(function () {
+          state.logoUpload = { id: uploadId, name: file.name, size: fileSize(file.size), state: "done", progress: 100, error: "", preview: preview };
+          commitBrand({ name: state.brand.name, tagline: state.brand.tagline, logo: preview }, "Uploaded logo");
+          show(state.page);
+          toast("Logo updated", "success", "desk-file");
+        }, Math.max(0, 550 - (Date.now() - started)));
       };
       reader.readAsDataURL(file);
     }
     if (event.target.id === "transcript-upload" && event.target.files[0]) {
-      const file = event.target.files[0];
-      state.files.unshift({ name: file.name, size: Math.max(1, Math.round(file.size / 1024)) + " KB" });
+      const input = event.target;
+      const file = input.files[0];
+      input.value = "";
+      const started = Date.now();
+      const entry = { id: "f" + Date.now(), name: file.name, size: fileSize(file.size), state: "uploading", progress: 18, error: "" };
+      state.files.unshift(entry);
       show("transcripts");
-      toast("Uploaded " + file.name);
+      toast("Uploading " + file.name, "loading", "desk-file");
+      const reader = new FileReader();
+      reader.onprogress = function (ev) {
+        if (!ev.lengthComputable || entry.state === "done" || entry.state === "error") return;
+        entry.progress = Math.max(18, Math.round((ev.loaded / ev.total) * 100));
+        entry.state = entry.progress < 100 ? "uploading" : "processing";
+        publishSurfaces();
+      };
+      reader.onerror = function () {
+        entry.state = "error";
+        entry.error = "Could not read " + file.name;
+        publishSurfaces();
+        toast(entry.error, "error", "desk-file");
+      };
+      reader.onload = function () {
+        setTimeout(function () {
+          entry.state = "done";
+          entry.progress = 100;
+          publishSurfaces();
+          toast("Uploaded " + file.name, "success", "desk-file");
+        }, Math.max(0, 550 - (Date.now() - started)));
+      };
+      reader.readAsArrayBuffer(file);
     }
   });
   document.getElementById("view-stage").addEventListener("input", function (event) {
@@ -5545,7 +5970,7 @@
     if (restore) restoreVersion(restore.dataset.id);
   });
   document.getElementById("modal-root").addEventListener("submit", function (event) {
-    if (event.target.id !== "record-form") return;
+    if (event.target.id !== "record-form" && event.target.id !== "application-form") return;
     event.preventDefault();
     const save = document.querySelector("#modal-actions button");
     if (save) save.click();
@@ -5628,10 +6053,10 @@
     show(next, true);
   });
   const hash = (location.hash || "").replace(/^#/, "");
-  if (hash && window.LittleAngelsNav && (window.LittleAngelsNav.byId[hash] || window.LittleAngelsNav.alias[hash] || PAGES[hash] || hash === "dashboard")) show(hash, true);
+  if (hash && window.SchoolNav && (window.SchoolNav.byId[hash] || window.SchoolNav.alias[hash] || PAGES[hash] || hash === "dashboard")) show(hash, true);
   else {
     syncNav("dashboard");
-    if (window.LittleAngelsNav) window.LittleAngelsNav.paintTabs("dashboard");
+    if (window.SchoolNav) window.SchoolNav.paintTabs("dashboard");
   }
   renderApplicants();
   paintNotice();

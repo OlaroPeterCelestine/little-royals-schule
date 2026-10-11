@@ -15,7 +15,32 @@ declare global {
     applySession?: (user: SchoolAccount) => void;
     requestAccount?: (user: AccountRequest) => void;
     signOutSchool?: () => void;
+    __deskButtons?: string[];
   }
+}
+
+function deskToast(title: string, type: "loading" | "success" | "error" | "info", id: string) {
+  window.dispatchEvent(
+    new CustomEvent("desk:toast", {
+      detail: { title, type, id, timeout: type === "loading" ? 0 : 3200 },
+    }),
+  );
+}
+
+function buttonBusy(id: string, busy: boolean) {
+  const current = new Set(window.__deskButtons || []);
+  if (busy) current.add(id);
+  else current.delete(id);
+  window.__deskButtons = Array.from(current);
+  window.dispatchEvent(new CustomEvent("desk:button"));
+}
+
+function deskAlert(id: string, title: string, description: string, variant: "default" | "destructive") {
+  window.dispatchEvent(new CustomEvent("desk:alert", { detail: { id, title, description, variant } }));
+}
+
+function clearAlert(id: string) {
+  window.dispatchEvent(new CustomEvent("desk:alert", { detail: { id, clear: true } }));
 }
 
 function required<T extends HTMLElement>(id: string): T {
@@ -37,7 +62,6 @@ export function startSession(): void {
   const screen = document.getElementById("login-screen");
   const emailInput = required<HTMLInputElement>("login-email");
   const passwordInput = required<HTMLInputElement>("login-password");
-  const error = required<HTMLElement>("login-error");
   const remember = required<HTMLButtonElement>("login-remember");
 
   function findStaff(email: string): SchoolAccount | undefined {
@@ -71,7 +95,7 @@ export function startSession(): void {
     }
     window.applySession?.(user);
     document.documentElement.classList.add("signed-in");
-    error.textContent = "";
+    clearAlert("login-error");
     passwordInput.value = "";
   }
 
@@ -83,7 +107,8 @@ export function startSession(): void {
     }
     document.documentElement.classList.remove("signed-in");
     passwordInput.value = "";
-    error.textContent = "";
+    clearAlert("login-error");
+    clearAlert("forgot-note");
     showPanel("login-panel");
     screen?.classList.remove("hidden");
   };
@@ -96,24 +121,37 @@ export function startSession(): void {
   required<HTMLFormElement>("login-form").addEventListener("submit", (event) => {
     event.preventDefault();
     const person = findStaff(emailInput.value);
+    const button = required<HTMLButtonElement>("login-submit");
+    const label = required<HTMLElement>("login-submit-label");
+    clearAlert("login-error");
     if (!person) {
-      error.textContent = "No school account uses that email.";
+      deskAlert("login-error", "Could not sign in", "No school account uses that email.", "destructive");
       return;
     }
     if (person.status !== "Active") {
-      error.textContent = "This account is still invited. The head teacher needs to activate it.";
+      deskAlert("login-error", "Could not sign in", "This account is still invited. The head teacher needs to activate it.", "destructive");
       return;
     }
     if (!passwordInput.value) {
-      error.textContent = "Enter your password.";
+      deskAlert("login-error", "Could not sign in", "Enter your password.", "destructive");
       return;
     }
-    enter(person);
+    button.disabled = true;
+    label.textContent = "Signing in";
+    buttonBusy("login-submit-icon", true);
+    deskToast("Signing in", "loading", "desk-login");
+    window.setTimeout(() => {
+      button.disabled = false;
+      label.textContent = "Log in";
+      buttonBusy("login-submit-icon", false);
+      enter(person);
+      deskToast(`Signed in as ${person.name}`, "success", "desk-login");
+    }, 600);
   });
 
   required<HTMLButtonElement>("login-forgot").addEventListener("click", () => {
     required<HTMLInputElement>("forgot-email").value = emailInput.value;
-    required<HTMLElement>("forgot-note").textContent = "";
+    clearAlert("forgot-note");
     showPanel("forgot-panel");
   });
   required<HTMLButtonElement>("forgot-back").addEventListener("click", () => {
@@ -121,11 +159,26 @@ export function startSession(): void {
   });
   required<HTMLFormElement>("forgot-panel").addEventListener("submit", (event) => {
     event.preventDefault();
-    const note = required<HTMLElement>("forgot-note");
-    const person = findStaff(required<HTMLInputElement>("forgot-email").value);
-    note.className = `mt-3 min-h-4 text-xs ${person ? "text-emerald-600" : "text-rose-600"}`;
-    note.textContent = person
-      ? `Reset steps were sent to ${person.email}.`
-      : "No school account uses that email.";
+    const button = required<HTMLButtonElement>("forgot-submit");
+    const label = required<HTMLElement>("forgot-submit-label");
+    const email = required<HTMLInputElement>("forgot-email").value;
+    clearAlert("forgot-note");
+    button.disabled = true;
+    label.textContent = "Sending";
+    buttonBusy("forgot-submit-icon", true);
+    deskToast("Sending reset link", "loading", "desk-reset");
+    window.setTimeout(() => {
+      button.disabled = false;
+      label.textContent = "Send reset link";
+      buttonBusy("forgot-submit-icon", false);
+      const person = findStaff(email);
+      if (person) {
+        deskAlert("forgot-note", "Reset link sent", `Reset steps were sent to ${person.email}.`, "default");
+        deskToast("Reset link sent", "success", "desk-reset");
+      } else {
+        deskAlert("forgot-note", "No account found", "No school account uses that email.", "destructive");
+        deskToast("No school account uses that email.", "error", "desk-reset");
+      }
+    }, 600);
   });
 }

@@ -20,7 +20,7 @@ export const metadata: Metadata = {
 
 const boot = `
 try { if (localStorage.getItem("littleroyals-session")) document.documentElement.classList.add("signed-in"); } catch (e) {}
-try { if (localStorage.getItem("eduos-sidebar-collapsed") === "1") document.documentElement.classList.add("sidebar-collapsed"); } catch (e) {}
+try { var side = localStorage.getItem("littleroyals-sidebar"); if (side === null) side = localStorage.getItem("eduos-sidebar-collapsed"); if (side === "1") document.documentElement.classList.add("sidebar-collapsed"); } catch (e) {}
 `;
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

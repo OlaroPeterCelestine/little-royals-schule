@@ -1,9 +1,9 @@
 import fs from "node:fs";
 import path from "node:path";
-import { SchoolDesk } from "@/components/school-desk";
+import { Desk } from "@/components/desk";
 
-const html = fs.readFileSync(path.join(process.cwd(), "school/body.html"), "utf8");
+const html = fs.readFileSync(path.join(process.cwd(), "school/shell.html"), "utf8");
 
 export default function HomePage() {
-  return <SchoolDesk html={html} />;
+  return <Desk html={html} />;
 }

@@ -371,6 +371,7 @@
   let openModule = "";
   let expandedApp = "";
   let active = "dashboard";
+  const openGroups = {};
 
   const TAB_ICONS = ["building-office-2", "banknotes", "document-text", "squares-2x2", "users", "chart-bar", "book-open", "academic-cap", "shield-check", "truck", "heart", "inbox", "user-group", "bell"];
 
@@ -409,10 +410,17 @@
     { label: "Settings", icon: "lock-closed", parts: [["settings", "main"]] }
   ];
 
-  function listedPages(app, mod) {
-    return mod.pages.filter(function (label) {
-      const item = byId[pageId(app, mod, label)];
-      return item && !item.detail && !item.hidden;
+  function groupOwns(group, id) {
+    const page = byId[id];
+    if (!page || !page.appId) return false;
+    return group.parts.some(function (pair) {
+      return pair[0] === page.appId && pair[1] === page.moduleId;
+    });
+  }
+
+  function openGroupFor(id) {
+    GROUPS.forEach(function (group) {
+      if (groupOwns(group, id)) openGroups[group.label] = true;
     });
   }
 
@@ -425,26 +433,32 @@
         '<span class="nav-label leading-snug">' + esc(item.label) + "</span></a>";
     });
     const groups = GROUPS.map(function (group) {
-      const blocks = group.parts.map(function (pair) {
+      const parts = group.parts.map(function (pair) {
         const app = findApp(pair[0]);
         const mod = app && app.modules.filter(function (item) { return item.id === pair[1]; })[0];
-        if (!app || !mod) return "";
-        const pages = listedPages(app, mod).map(function (label) {
-          const id = pageId(app, mod, label);
-          const on = active === id;
-          return '<a href="#' + id + '" data-page="' + id + '" class="nav-page flex items-center rounded-md px-2 py-1.5 leading-snug ' +
-            (on ? "nav-on font-semibold shadow-sm" : "text-slate-600 hover:bg-slate-50 hover:text-slate-900") + '">' + esc(label) + "</a>";
-        }).join("");
-        const sub = group.parts.length > 1 ? '<p class="nav-sub">' + esc(mod.label || mod.name) + "</p>" : "";
-        return sub + pages;
+        return app && mod ? { app: app, mod: mod } : null;
+      }).filter(Boolean);
+      if (!parts.length) return "";
+      const here = groupOwns(group, active);
+      if (parts.length === 1) {
+        const id = pageId(parts[0].app, parts[0].mod, visibleLabel(parts[0].app, parts[0].mod));
+        return '<a href="#' + id + '" data-page="' + id + '" class="nav-kicker' + (here ? " nav-on" : "") + '" aria-label="' + esc(group.label) + '">' +
+          svg(group.icon, "nav-icon w-4 h-4 shrink-0") +
+          '<span class="nav-label">' + esc(group.label) + "</span></a>";
+      }
+      const blocks = parts.map(function (part) {
+        const id = pageId(part.app, part.mod, visibleLabel(part.app, part.mod));
+        const page = byId[active];
+        const on = page && page.appId === part.app.id && page.moduleId === part.mod.id;
+        return '<a href="#' + id + '" data-page="' + id + '" class="nav-page flex items-center rounded-md px-2 py-1.5 leading-snug ' +
+          (on ? "nav-on font-semibold shadow-sm" : "text-slate-600 hover:bg-slate-50 hover:text-slate-900") + '">' + esc(part.mod.label || part.mod.name) + "</a>";
       }).join("");
-      const first = group.parts[0];
-      const firstApp = findApp(first[0]);
-      const firstMod = firstApp && firstApp.modules.filter(function (item) { return item.id === first[1]; })[0];
-      const firstId = firstApp && firstMod ? pageId(firstApp, firstMod, visibleLabel(firstApp, firstMod)) : "dashboard";
-      return '<section class="nav-section"><a href="#' + firstId + '" data-page="' + firstId + '" class="nav-kicker" aria-label="' + esc(group.label) + '">' +
+      const open = !!openGroups[group.label];
+      return '<section class="nav-section' + (open ? " is-open" : "") + '"><button type="button" data-group-toggle="' + esc(group.label) + '" class="nav-kicker app-toggle" aria-expanded="' + (open ? "true" : "false") + '" aria-label="' + esc(group.label) + '">' +
         svg(group.icon, "nav-icon w-4 h-4 shrink-0") +
-        '<span class="nav-label">' + esc(group.label) + "</span></a><div class=\"nav-pages\">" + blocks + "</div></section>";
+        '<span class="nav-label">' + esc(group.label) + "</span>" +
+        svg("chevron-down", "nav-chevron ml-auto h-3.5 w-3.5 shrink-0") +
+        '</button><div class="nav-pages">' + blocks + "</div></section>";
     }).join("");
     return '<div class="nav-sections">' + globals.join("") + groups + "</div>";
   }
@@ -507,6 +521,19 @@
   }
 
   function onClick(event) {
+    const groupToggle = event.target.closest("[data-group-toggle]");
+    if (groupToggle && root && root.contains(groupToggle)) {
+      event.preventDefault();
+      const key = groupToggle.getAttribute("data-group-toggle");
+      if (hooks.isCollapsed()) {
+        hooks.expand();
+        openGroups[key] = true;
+      } else {
+        openGroups[key] = !openGroups[key];
+      }
+      paint();
+      return;
+    }
     const toggle = event.target.closest("[data-app-toggle]");
     if (toggle && root && root.contains(toggle)) {
       event.preventDefault();
@@ -527,7 +554,7 @@
     hooks.onPage(link.getAttribute("data-page"));
   }
 
-  window.LittleAngelsNav = {
+  window.SchoolNav = {
     byId: byId,
     pages: pages,
     alias: alias,
@@ -577,6 +604,7 @@
       const page = byId[id];
       if (!page) return;
       active = id;
+      openGroupFor(id);
       if (page.appId) {
         openApp = page.appId;
         openModule = page.moduleId;
