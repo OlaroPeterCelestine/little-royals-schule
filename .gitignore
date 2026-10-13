@@ -10,3 +10,14 @@ playwright-report
 test-results
 blob-report
 playwright/.cache
+
+# Go
+backend/bin
+backend/tmp
+
+# Flutter
+mobile/.dart_tool
+mobile/build
+mobile/.flutter-plugins
+mobile/.flutter-plugins-dependencies
+mobile/.packages
